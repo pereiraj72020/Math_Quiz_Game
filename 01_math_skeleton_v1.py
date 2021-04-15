@@ -54,7 +54,7 @@ class Start:
                                 command=lambda: self.to_game((1)))
         self.play_button.grid(row=2, pady=10)
 
-        
+
     def to_game(self, button):
         starting_questions = self.start_amount_entry.get()
         Game(self, button, starting_questions)
