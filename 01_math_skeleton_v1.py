@@ -1,11 +1,10 @@
 from tkinter import *
-from functools import partial   # To prevent unwated windows
+from functools import partial  # To prevent unwated windows
 import random
 
 
 class Start:
     def __init__(self, parent):
-
         check_input = []
         check_input_2 = []
         questions = []
@@ -25,8 +24,8 @@ class Start:
         self.start_amount_entry.grid(row=2)
 
         # Amount of questions (row 2)
-        self.question_amount = Amount(self.start_frame,
-                                      "How many Questions? {}".format(questions))
+        self.question_amount = Questions(self.start_frame,
+                                         "How many Questions? {}".format(questions))
         self.question_amount.grid(row=3)
 
         # Addition button (row 3)
@@ -54,7 +53,6 @@ class Start:
                                 command=lambda: self.to_game((1)))
         self.play_button.grid(row=2, pady=10)
 
-
     def to_game(self, button):
         starting_questions = self.start_amount_entry.get()
         Game(self, button, starting_questions)
@@ -64,7 +62,7 @@ class Game:
     def __init__(self, partner, button, starting_questions):
         print(button)
         print(starting_questions)
-        
+
         # disable buttons
         partner.addition_button.config(state=DISABLED)
         partner.subtraction_button.config(state=DISABLED)
@@ -82,15 +80,6 @@ class Game:
         self.game_frame = Frame(self.game_box)
         self.game_frame.grid()
 
-        # Heading Row
-        self.heading_label = Label(self.game_frame, text="Heading",
-                                   )
-
-
-
-
-
-
 
 # main routine
 if __name__ == "__main__":
@@ -98,9 +87,3 @@ if __name__ == "__main__":
     root.title("Mystery Box Game")
     something = Start(parent=DISABLED)
     root.mainloop()
-
-        
-        
-
-
-
