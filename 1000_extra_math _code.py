@@ -1,4 +1,6 @@
 
+class Start:
+
 # if users press cross at top, game quits
         self.game_box.protocol('WM_DELETE_WINDOW', self.to_quit)
 
