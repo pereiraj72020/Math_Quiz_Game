@@ -16,15 +16,12 @@ class Start:
         self.starting_question = IntVar()
         self.starting_question.set(0)
 
-        # if users press cross at top, game quits
-        self.game_box.protocol('WM_DELETE_WINDOW', self.to_quit)
-
         self.game_frame = Frame(self.game_box)
 
         # Math Heading (row 0)
         self.math_quiz_label = Label(self.start_frame, text="Math Quiz Game",
                                      font="Arial 19 bold")
-        self.math_quiz_label.grid(row=1)
+        self.math_quiz_label.grid(row=0)
 
         # Initial Instructions (row 1)
         self.math_instructions = Label(self.start_frame,
@@ -32,7 +29,9 @@ class Start:
                                        text="Enter in your selected two integers and the amount"
                                             "of questions that is going to be answered. Select either"
                                             "addition, subtraction, multiplication or division. Then"
-                                            "<click> Start when finished doing the following.")
+                                            "<click> Start when finished doing the following.",
+                                       wrap=275, justify=LEFT, padx=10, pady=10)
+        self.math_instructions.grid(row=1)
 
         # Number input text (row 2)
         self.number_input_text = Label(self.start_frame, text="Enter numbers between...",
@@ -49,66 +48,70 @@ class Start:
         self.and_1 = Label(self.start_frame, text="And",
                            justify=LEFT, bg="#ffafaf", fg="maroon",
                            font="Arial 10 italic", wrap=225, padx=10, pady=10)
-        self.and_1.grid(row=3, column=1, padx=5, pady=10)
+        self.and_1.grid(row=4, column=0, padx=5, pady=10)
 
         # Number input_2 (row 3)
         self.number_input_2 = Entry(self.start_frame, width=20,
                                     font="Arial 14 bold", justify=CENTER)
-        self.number_input_2.grid(row=3, column=2, pady=10)
+        self.number_input_2.grid(row=5, column=0, pady=10)
 
-        # Amount of questions text (row 3)
+        # Amount of questions text (row 6)
         self.question_text = Label(self.start_frame, text="How many questions?",
                                    justify=LEFT, bg="#ffafaf", fg="maroon",
                                    font="Arial 10 italic", wrap=225, padx=10, pady=10)
-        self.question_text.grid(row=3, pady=10)
+        self.question_text.grid(row=6, pady=10)
 
-        # Amount of questions Entry Box (row 4)
+        # Amount of questions Entry Box (row 7)
         self.question_amount = Entry(self.start_frame, width=20,
                                      font="Arial 14 bold", justify=CENTER)
-        self.question_amount.grid(row=4, pady=10)
+        self.question_amount.grid(row=7, pady=10)
 
-        # button frame (row 6)
+        # button frame (row 8)
         self.button_frame = Frame(self.start_frame)
-        self.button_frame.grid(row=6)
+        self.button_frame.grid(row=8)
 
         # Buttons go here...
         button_font = "Arial 12 bold"
 
-        # Addition button (row 4)
-        self.addition_button = Button(self.start_frame, text='Addition', bg='gray25', font=button_font,
-                                      command=lambda: self.to_game(1), activebackground='cyan')
-        self.addition_button.grid(row=4)
+        # Addition button (row 8)
+        self.addition_button = Button(self.button_frame, text='Addition', bg="#008000", font=button_font,
+                                       activebackground="#FFA500")
+        self.addition_button.grid(row=0, column=0)
 
-        # Subtraction button (row 5)
-        self.subtraction_button = Button(self.start_frame, text='Subtraction', bg='gray25', font=button_font,
-                                         command=lambda: self.to_game(2), activebackground='cyan')
-        self.subtraction_button.grid(row=5)
+        # Subtraction button (row 8)
+        self.subtraction_button = Button(self.button_frame, text='Subtraction', bg="#008000", font=button_font,
+                                         activebackground="#FFA500")
+        self.subtraction_button.grid(row=0, column=1, padx=5, pady=10)
 
-        # Multiplication button (row 6)
-        self.multiplication_button = Button(self.start_frame, text='Multiplication', bg='gray25', font=button_font,
-                                            command=lambda: self.to_game(3), activebackground='cyan')
-        self.multiplication_button.grid(row=6)
+        # Multiplication button (row 8)
+        self.multiplication_button = Button(self.button_frame, text='Multiplication', bg="#008000", font=button_font,
+                                             activebackground="#FFA500")
+        self.multiplication_button.grid(row=0, column=2, padx=5, pady=10)
 
-        # Division button (row 7)
-        self.division_button = Button(self.start_frame, text='Division', bg='gray25', font=button_font,
-                                      command=lambda: self.to_game(4), activebackground='cyan')
-        self.division_button.grid(row=7)
+        # Division button (row 8)
+        self.division_button = Button(self.button_frame, text='Division', bg="#008000", font=button_font,
+                                       activebackground="#FFA500")
+        self.division_button.grid(row=0, column=3, pady=10)
 
-        # Start button (row 8)
-        self.start_button = Button(self.start_frame, text='Start', bg="#FFFF00",
-                                   command=lambda: self.to_game(5))
-        self.start_button.grid(row=8)
+        # Help_Quit frame (row 9)
+        self.help_quit_frame = Frame(self.start_frame)
+        self.help_quit_frame.grid(row=9)
 
         # Help/Rules Button (row 9)
-        self.help_button = Button(self.start_frame, text="How to Play",
+        self.help_button = Button(self.help_quit_frame, text="Help/Rules",
                                   bg="#808080", fg="white", font=button_font)
-        self.help_button.grid(row=9, column=0)
+        self.help_button.grid(row=0, column=0)
 
-        # Quit Button (row 9)
+        # Start button (row 9)
+        self.start_button = Button(self.help_quit_frame, text='Start', bg="#FFFF00",
+                                   font=button_font)
+        self.start_button.grid(row=9, column=1)
+
+        # Quit Button (row 10)
         self.quit_button = Button(self.game_frame, text="Quit", fg="white",
-                                  bg="660000", font="Arial 15 bold", width=20,
-                                  command=self.to_quit)
-        self.quit_button.grid(row=9, column=1)
+                                  bg="#660000", font="Arial 15 bold", width=20,
+                                  padx=10, pady=10)
+        self.quit_button.grid(row=10, pady=10)
 
     def to_game(self, button):
         # Retrieve starting questions
@@ -117,9 +120,6 @@ class Start:
         # self.start_frame.destroy()
         self.start_frame.destroy()
         Game(self, button, starting_questions)
-
-    def to_quit(self):
-        root.destroy()
 
 
 class Game:
