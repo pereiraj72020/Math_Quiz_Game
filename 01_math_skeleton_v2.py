@@ -22,15 +22,17 @@ class Start:
         self.math_instructions = Label(self.start_frame,
                                        font="Arial 10 italic",
                                        text="Enter in your selected two integers and the amount "
-                                            "of questions that is going to be answered. Select either "
-                                            "addition, subtraction, multiplication or division. Then "
-                                            "<click> Start when finished doing the following. ",
+                                            "of questions that is going to be answered. "
+                                            "Then select either addition, subtraction, multiplication "
+                                            "or division when finished doing the following to start "
+                                            "the game. ",
                                        wrap=275, justify=LEFT, padx=10, pady=10)
         self.math_instructions.grid(row=1)
 
         # Number input text (row 2)
         self.number_input_text = Label(self.start_frame, text="Enter numbers between...",
-                                       justify=LEFT, bg="#FFFF00", fg="black",
+                                       justify=LEFT, bg="#FFFF00", fg="black", borderwidth=2,
+                                       relief="groove",
                                        font="Arial 11 bold", wrap=225, padx=10, pady=6)
         self.number_input_text.grid(row=2, pady=10)
 
@@ -45,7 +47,8 @@ class Start:
 
         # 'And' between Number input_1 and input_2 (row 3)
         self.and_1 = Label(self.number_input_frame, text="And",
-                           justify=LEFT, bg="#FFFF00", fg="black",
+                           justify=LEFT, bg="#FFFF00", fg="black", borderwidth=2,
+                           relief="groove",
                            font="Arial 10 bold", wrap=225, padx=10, pady=3)
         self.and_1.grid(row=0, column=1, padx=5, pady=10)
 
@@ -56,7 +59,8 @@ class Start:
 
         # Amount of questions text (row 4)
         self.question_text = Label(self.start_frame, text="How many questions?",
-                                   justify=LEFT, bg="#FFFF00", fg="black",
+                                   justify=LEFT, bg="#FFFF00", fg="black", borderwidth=2,
+                                   relief="groove",
                                    font="Arial 11 bold", wrap=225, padx=10, pady=6)
         self.question_text.grid(row=4, pady=10)
 
