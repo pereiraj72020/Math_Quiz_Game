@@ -5,6 +5,7 @@ import random
 
 class Start:
     def __init__(self, parent):
+
         # GUI to get user's numbers
         self.start_frame = Frame(padx=10, pady=10)
         self.start_frame.grid()
@@ -41,10 +42,6 @@ class Start:
                                     font="Arial 14 bold", justify=CENTER)
         self.number_input_1.grid(row=0, column=0, pady=10)
 
-        # Error Message Labels (initially blank, row 4)
-        self.save_error_label = Label(self.start_frame, text="", fg="maroon")
-        self.save_error_label.grid(row=4, column=0)
-
         # 'And' between Number input_1 and input_2 (row 3)
         self.and_1 = Label(self.number_input_frame, text="And",
                            justify=LEFT, bg="#FFFF00", fg="black", borderwidth=2,
@@ -57,10 +54,6 @@ class Start:
                                     font="Arial 14 bold", justify=CENTER)
         self.number_input_2.grid(row=0, column=2, pady=10)
 
-        # Error Message Labels (initially blank, row 4)
-        self.save_error_label = Label(self.start_frame, text="", fg="maroon")
-        self.save_error_label.grid(row=4, column=2)
-
         # Amount of questions text (row 5)
         self.question_text = Label(self.start_frame, text="How many questions?",
                                    justify=LEFT, bg="#FFFF00", fg="black", borderwidth=2,
@@ -72,6 +65,17 @@ class Start:
         self.question_amount = Entry(self.start_frame, width=20,
                                      font="Arial 14 bold", justify=CENTER)
         self.question_amount.grid(row=6, pady=10)
+
+        self.entry_error_frame = Frame(self.start_frame, width=200)
+        self.entry_error_frame.grid(row=4)
+
+        # Error Message Labels (initially blank, row 4)
+        self.save_error_label = Label(self.entry_error_frame, text="", fg="maroon")
+        self.save_error_label.grid(row=4, column=0)
+
+        # Error Message Labels (initially blank, row 4)
+        self.amount_error_label = Label(self.entry_error_frame, text="", fg="maroon")
+        self.amount_error_label.grid(row=4, column=2)
 
         # button frame (row 7)
         self.button_frame = Frame(self.start_frame)
@@ -116,37 +120,49 @@ class Start:
                                   command=self.to_quit)
         self.quit_button.grid(row=0, column=1, padx=5, pady=10)
 
-        # Regular expression to check filename is valid
-        valid_char = "[A-Za-z0-9_]"
-        has_error = "no"
+    def check_errors(self):
+        starting_question = self.number_input_text.get()
 
-        filename = self.number_input_1.get()
-        print(filename)
+        # Set error background colours (and assume that there are no
+        # errors at the start...
+        error_back = "#ffafaf"
+        has_errors = "no"
+        error_feedback = ""
 
-        for letter in filename:
-            if re.match(valid_char, letter):
-                continue
+        try:
+            starting_question = int(starting_question)
 
-            elif letter == " ":
-                problem = "(no spaces allowed) "
-
+            if starting_question < 1:
+                has_errors = "yes"
+                error_feedback = "Sorry, the least amount of rounds is 1"
+            elif starting_question > 50:
+                has_errors = "yes"
+                error_feedback = "Sorry, the most amount of rounds is 50"
+            elif starting_question:
+                self.addition_button.config(state=NORMAL)
+                self.subtraction_button.config(state=NORMAL)
+                self.multiplication_button.config(state=NORMAL)
+                self.division_button.config(state=NORMAL)
             else:
-                problem = ("(no {}'s allowed)".format(letter))
-            has_error = "yes"
-            break
+                self.addition_button.config(state=DISABLED)
+                self.subtraction_button.config(state=DISABLED)
+                self.multiplication_button.config(state=DISABLED)
+                self.division_button.config(state=DISABLED)
 
-        if filename == "":
-            problem = "can't be blank"
-            has_error = "no"
+        except ValueError:
+            has_errors = "yes"
+            error_feedback = "Please enter a whole number"
 
-        if has_error == "yes":
-            # Display error message
-            self.save_error_label.config(text="Invalid filename - {}".format(problem))
-            # Change entry box background to pink
-            self.number_input_1.config(bg="#ffafaf")
-            self.number_input_2.config(bg="#ffafaf")
-            self.question_amount.config(bg="#ffafaf")
-            print()
+        if has_errors == "yes":
+            self.number_input_1.config(bg=error_back)
+            self.number_input_1.config(text=error_feedback)
+            self.number_input_2.config(bg=error_back)
+            self.number_input_2.config(text=error_feedback)
+        else:
+            self.addition_button.config(state=NORMAL)
+            self.subtraction_button.config(state=NORMAL)
+            self.multiplication_button.config(state=NORMAL)
+            self.division_button.config(state=NORMAL)
 
     def to_quit(self):
         root.destroy()
