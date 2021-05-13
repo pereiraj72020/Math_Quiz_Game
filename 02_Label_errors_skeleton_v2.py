@@ -139,10 +139,7 @@ class Start:
                 has_errors = "yes"
                 error_feedback = "Sorry, the most amount of rounds is 50"
             elif starting_question:
-                self.addition_button.config(state=NORMAL)
-                self.subtraction_button.config(state=NORMAL)
-                self.multiplication_button.config(state=NORMAL)
-                self.division_button.config(state=NORMAL)
+                self.question_amount.config(state=error_back)
             else:
                 self.addition_button.config(state=DISABLED)
                 self.subtraction_button.config(state=DISABLED)
