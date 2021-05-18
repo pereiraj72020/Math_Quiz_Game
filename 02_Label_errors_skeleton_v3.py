@@ -162,8 +162,7 @@ class Start:
             self.number_input_1.config(bg=error_back)
             self.amount_error_label.config(text=error_feedback)
         else:
-            # Set starting balance to amoutn entere by user
-            self.
+            self.addition_button.config(state=NORMAL)
 
     def to_quit(self):
         root.destroy()
