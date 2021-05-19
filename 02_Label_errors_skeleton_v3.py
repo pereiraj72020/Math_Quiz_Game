@@ -10,6 +10,10 @@ class Start:
         self.start_frame = Frame(padx=10, pady=10)
         self.start_frame.grid()
 
+        # Set Initial amount to zero
+        self.starting_amount = IntVar()
+        self.starting_amount.set(0)
+
         # Math Heading (row 0)
         self.math_quiz_label = Label(self.start_frame, text="Math Quiz Game",
                                      font="Arial 19 bold")
@@ -54,6 +58,17 @@ class Start:
                                     font="Arial 14 bold", justify=CENTER)
         self.number_input_2.grid(row=0, column=2, pady=10)
 
+        self.entry_error_frame = Frame(self.start_frame, width=200)
+        self.entry_error_frame.grid(row=4)
+
+        # Error Message Labels (initially blank, row 4)
+        self.amount_error_label_1 = Label(self.entry_error_frame, text="", fg="maroon")
+        self.amount_error_label_1.grid(row=4, column=0)
+
+        # Error Message Labels (initially blank, row 4)
+        self.amount_error_label_2 = Label(self.entry_error_frame, text="", fg="maroon")
+        self.amount_error_label_2.grid(row=4, column=2)
+
         # Amount of questions text (row 5)
         self.question_text = Label(self.start_frame, text="How many questions?",
                                    justify=LEFT, bg="#FFFF00", fg="black", borderwidth=2,
@@ -64,64 +79,57 @@ class Start:
         # Amount of questions Entry Box (row 6)
         self.question_amount = Entry(self.start_frame, width=20,
                                      font="Arial 14 bold", justify=CENTER)
-        self.question_amount.grid(row=6, pady=10)
+        self.question_amount.grid(row=6, pady=10, column=0)
 
-        self.entry_error_frame = Frame(self.start_frame, width=200)
-        self.entry_error_frame.grid(row=4)
+        # Error Message Labels (initially blank, row 7)
+        self.amount_error_label_3 = Label(self.entry_error_frame, text="", fg="maroon")
+        self.amount_error_label_3.grid(row=7, column=0)
 
-        # Error Message Labels (initially blank, row 4)
-        self.save_error_label = Label(self.entry_error_frame, text="", fg="maroon")
-        self.save_error_label.grid(row=4, column=0)
-
-        # Error Message Labels (initially blank, row 4)
-        self.amount_error_label = Label(self.entry_error_frame, text="", fg="maroon")
-        self.amount_error_label.grid(row=4, column=2)
-
-        # button frame (row 7)
+        # button frame (row 8)
         self.button_frame = Frame(self.start_frame)
-        self.button_frame.grid(row=7)
+        self.button_frame.grid(row=8)
 
         # Buttons go here...
         button_font = "Arial 12 bold"
 
-        # Addition button (row 7)
+        # Addition button (row 8)
         self.addition_button = Button(self.button_frame, text='Addition', bg="#008000", font=button_font,
                                       fg="white", activebackground="#FFA500")
         self.addition_button.grid(row=0, column=0)
 
-        # Subtraction button (row 7)
+        # Subtraction button (row 8)
         self.subtraction_button = Button(self.button_frame, text='Subtraction', bg="#008000", font=button_font,
                                          fg="white", activebackground="#FFA500")
         self.subtraction_button.grid(row=0, column=1, padx=5, pady=10)
 
-        # Multiplication button (row 7)
+        # Multiplication button (row 8)
         self.multiplication_button = Button(self.button_frame, text='Multiplication', bg="#008000", font=button_font,
                                             fg="white", activebackground="#FFA500")
         self.multiplication_button.grid(row=0, column=2, padx=5, pady=10)
 
-        # Division button (row 7)
+        # Division button (row 8)
         self.division_button = Button(self.button_frame, text='Division', bg="#008000", font=button_font,
                                       fg="white" ,activebackground="#FFA500")
         self.division_button.grid(row=0, column=3, pady=10)
 
-        # Help_Quit frame (row 8)
+        # Help_Quit frame (row 9)
         self.help_quit_frame = Frame(self.start_frame)
-        self.help_quit_frame.grid(row=8)
+        self.help_quit_frame.grid(row=9)
 
-        # Help/Rules Button (row 8)
+        # Help/Rules Button (row 9)
         self.help_button = Button(self.help_quit_frame, text="Help/Rules", bg="#808080",
                                   fg="white", font=button_font, width=10,
                                   command=self.to_help)
         self.help_button.grid(row=0, column=0)
 
-        # Quit Button (row 8)
+        # Quit Button (row 9)
         self.quit_button = Button(self.help_quit_frame, text="Quit", bg="#660000",
                                   fg="white", font=button_font, width=10,
                                   command=self.to_quit)
         self.quit_button.grid(row=0, column=1, padx=5, pady=10)
 
     def check_errors(self):
-        starting_question = self.number_input_1.get()
+        starting_quiz = self.question_amount.get()
 
         # Set error background colours (and assume that there are no
         # errors at the start...
@@ -130,42 +138,42 @@ class Start:
         error_feedback = ""
 
         # Change background to white (for testing purposes) ...
-        self.number_input_1.config(bg="white")
-        self.amount_error_label.config(text="")
+        self.question_amount.config(bg="white")
+        self.amount_error_label_3.config(text="")
 
         # Disable all buttons
         self.addition_button.config(state=DISABLED)
-        self.subtraction_button.config(state=DISABLED)
-        self.multiplication_button.config(state=DISABLED)
-        self.division_button.config(state=DISABLED)
 
         try:
-            starting_question = int(starting_question)
+            starting_quiz = int(starting_quiz)
 
-            if starting_question < 1:
+            if starting_quiz < 1:
                 has_errors = "yes"
                 error_feedback = "Sorry, the least you can enter is 1"
-            elif starting_question > 50:
+            elif starting_quiz > 20:
                 has_errors = "yes"
-                error_feedback = "Too high! The most you can enter is 50"
+                error_feedback = "Sorry, the most you can enter is 20"
             else:
                 self.addition_button.config(state=NORMAL)
-                self.subtraction_button.config(state=NORMAL)
-                self.multiplication_button.config(state=NORMAL)
-                self.division_button.config(state=NORMAL)
 
         except ValueError:
             has_errors = "yes"
-            error_feedback = "Please enter a whole number (no decimals) "
+            error_feedback = "Please enter a whole number (no decimals)"
 
         if has_errors == "yes":
-            self.number_input_1.config(bg=error_back)
-            self.amount_error_label.config(text=error_feedback)
+            self.question_amount.config(bg=error_back)
+            self.amount_error_label_3.config(text=error_feedback)
         else:
-            self.addition_button.config(state=NORMAL)
+            # Set starting_quiz to amount entered by user
+            self.starting_amount.set(starting_quiz)
 
-    def to_quit(self):
-        root.destroy()
+    def to_game(self):
+
+        # Retrieve starting quiz
+        starting_quiz = self.starting_amount.get()
+
+        def to_quit(self):
+            root.destroy()
 
     def to_help(self):
         get_help = Help(self)
@@ -221,9 +229,9 @@ class Help:
 
 
 class Game:
-    def __init__(self, partner, button, starting_questions):
+    def __init__(self, partner, button, starting_quizs):
         print(button)
-        print(starting_questions)
+        print(starting_quizs)
 
 
 # main routine
