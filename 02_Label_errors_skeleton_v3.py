@@ -109,7 +109,7 @@ class Start:
 
         # Division button (row 8)
         self.division_button = Button(self.button_frame, text='Division', bg="#008000", font=button_font,
-                                      fg="white" ,activebackground="#FFA500")
+                                      fg="white", activebackground="#FFA500")
         self.division_button.grid(row=0, column=3, pady=10)
 
         # Help_Quit frame (row 9)
@@ -162,15 +162,9 @@ class Start:
 
         if has_errors == "yes":
             self.question_amount.config(bg=error_back)
-            self.amount_error_label_3.config(text=error_feedback)
-        else:
-            # Set starting_quiz to amount entered by user
-            self.starting_amount.set(starting_quiz)
+            self.amount_error_label_3.config(bg=error_feedback)
 
-    def to_game(self):
-
-        # Retrieve starting quiz
-        starting_quiz = self.starting_amount.get()
+    def to_game(self, ):
 
         def to_quit(self):
             root.destroy()
@@ -181,7 +175,6 @@ class Start:
 
 class Help:
     def __init__(self, partner):
-
         # disable help button
         partner.help_button.config(state=DISABLED)
 
@@ -200,15 +193,15 @@ class Help:
                                  font="arial 14 bold")
         self.how_heading.grid(row=0)
 
-        help_text="Type in two numbers that signify all numbers between and itself to answer " \
-                  ". Type in the amount of rounds you want to play. Then choose either addition,  " \
-                  "subtraction, multiplication or division to start the game.\n\n " \
-                  "When you enter the play area, type in appropriate integers after the equals sign " \
-                  "to answer the question. Round limit you have input from the beginning of the " \
-                  "has been reached the play area will stop and say finished.\n\n " \
-                  "The stats of the questions answered will be added to the Game Stats.\n\n " \
-                  "Which then shows the amount of questions correct and incorrect. " \
-                  " Questions correct {} / Rounds {}, Questions incorrect {}."
+        help_text = "Type in two numbers that signify all numbers between and itself to answer " \
+                    ". Type in the amount of rounds you want to play. Then choose either addition,  " \
+                    "subtraction, multiplication or division to start the game.\n\n " \
+                    "When you enter the play area, type in appropriate integers after the equals sign " \
+                    "to answer the question. Round limit you have input from the beginning of the " \
+                    "has been reached the play area will stop and say finished.\n\n " \
+                    "The stats of the questions answered will be added to the Game Stats.\n\n " \
+                    "Which then shows the amount of questions correct and incorrect. " \
+                    " Questions correct {} / Rounds {}, Questions incorrect {}."
 
         # Help text (label, row 1)
         self.help_text = Label(self.help_frame, text=help_text,
