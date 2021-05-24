@@ -94,22 +94,22 @@ class Start:
 
         # Addition button (row 8)
         self.addition_button = Button(self.button_frame, text='Addition', bg="#008000", font=button_font,
-                                      fg="white", activebackground="#FFA500")
+                                      fg="white", command=lambda: self.to_game(1), activebackground="#FFA500")
         self.addition_button.grid(row=0, column=0)
 
         # Subtraction button (row 8)
         self.subtraction_button = Button(self.button_frame, text='Subtraction', bg="#008000", font=button_font,
-                                         fg="white", activebackground="#FFA500")
+                                         fg="white", command=lambda: self.to_game(2), activebackground="#FFA500")
         self.subtraction_button.grid(row=0, column=1, padx=5, pady=10)
 
         # Multiplication button (row 8)
         self.multiplication_button = Button(self.button_frame, text='Multiplication', bg="#008000", font=button_font,
-                                            fg="white", activebackground="#FFA500")
+                                            fg="white", command=lambda: self.to_game(3), activebackground="#FFA500")
         self.multiplication_button.grid(row=0, column=2, padx=5, pady=10)
 
         # Division button (row 8)
         self.division_button = Button(self.button_frame, text='Division', bg="#008000", font=button_font,
-                                      fg="white", activebackground="#FFA500")
+                                      fg="white", command=lambda: self.to_game(4), activebackground="#FFA500")
         self.division_button.grid(row=0, column=3, pady=10)
 
         # Help_Quit frame (row 9)
@@ -143,6 +143,9 @@ class Start:
 
         # Disable all buttons
         self.addition_button.config(state=DISABLED)
+        self.subtraction_button.config(state=DISABLED)
+        self.multiplication_button.config(state=DISABLED)
+        self.division_button.config(state=DISABLED)
 
         try:
             starting_quiz = int(starting_quiz)
@@ -155,6 +158,9 @@ class Start:
                 error_feedback = "Sorry, the most you can enter is 20"
             else:
                 self.addition_button.config(state=NORMAL)
+                self.subtraction_button.config(state=NORMAL)
+                self.multiplication_button.config(state=NORMAL)
+                self.division_button.config(state=NORMAL)
 
         except ValueError:
             has_errors = "yes"
@@ -164,13 +170,18 @@ class Start:
             self.question_amount.config(bg=error_back)
             self.amount_error_label_3.config(bg=error_feedback)
 
-    def to_game(self, ):
-
-        def to_quit(self):
-            root.destroy()
+    def to_quit(self):
+        root.destroy()
 
     def to_help(self):
         get_help = Help(self)
+
+    def to_game(self, button):
+
+        # retrieve starting quiz
+        starting_quiz = self.question_amount.get()
+
+        Game(self, button, starting_quiz)
 
 
 class Help:
@@ -222,9 +233,9 @@ class Help:
 
 
 class Game:
-    def __init__(self, partner, button, starting_quizs):
+    def __init__(self, partner, button, starting_quiz):
         print(button)
-        print(starting_quizs)
+        print(starting_quiz)
 
 
 # main routine
