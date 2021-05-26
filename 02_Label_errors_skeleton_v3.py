@@ -42,10 +42,10 @@ class Start:
                                     font="Arial 14 bold", justify=CENTER)
         self.number_input_1.grid(row=0, column=0, pady=10)
 
-        # Error Message Labels 1
-        self.amount_error_label_1 = Button(self.number_input_frame,
-                                           font="Arial 14 bold", text="Add Amount", command=self.check_errors)
-        self.amount_error_label_1.grid(row=0, column=1)
+        # Add amount 1 (row 4)
+        self.Add_button_1 = Button(self.number_input_frame,
+                                   font="Arial 14 bold", text="Add Amount", command=self.check_errors)
+        self.Add_button_1.grid(row=0, column=1)
 
         # 'And' between Number input_1 and input_2 (row 4)
         self.and_1 = Label(self.number_input_frame, text="And",
@@ -59,10 +59,16 @@ class Start:
                                     font="Arial 14 bold", justify=CENTER)
         self.number_input_2.grid(row=0, column=3, pady=10)
 
-        # Error Message Labels 2
-        self.amount_error_label_2 = Button(self.number_input_frame,
-                                           font="Arial 14 bold", text="Add Amount", command=self.check_errors)
-        self.amount_error_label_2.grid(row=0, column=4)
+        # Add amount 2 (row 4)
+        self.Add_button_2 = Button(self.number_input_frame,
+                                   font="Arial 14 bold", text="Add Amount", command=self.check_errors)
+        self.Add_button_2.grid(row=0, column=4)
+
+        # Amount error label (row 5)
+        self.amount_error_label_1 = Label(self.number_input_frame, fg="maroon",
+                                          text="", font="Arial 10 bold", wrap=275,
+                                          justify=LEFT)
+        self.amount_error_label_1.grid(row=5, columnspan=2, pady=5)
 
         # Amount of questions text (row 5)
         self.question_text = Label(self.start_frame, text="How many questions?",
@@ -71,17 +77,25 @@ class Start:
                                    font="Arial 11 bold", wrap=225, padx=10, pady=6)
         self.question_text.grid(row=5, pady=10)
 
-        # NEW FRAME STARTING 25-05-21
+        # Question amount Frame
+        self.question_amount_frame = Frame(self.start_frame, width=200)
+        self.question_amount_frame.grid(row=6)
 
         # Amount of questions Entry Box (row 6)
-        self.question_amount = Entry(self.start_frame, width=20,
+        self.question_amount = Entry(self.question_amount_frame, width=20,
                                      font="Arial 14 bold", justify=CENTER)
-        self.question_amount.grid(row=6, pady=10, column=0)
+        self.question_amount.grid(row=0, pady=10, column=0)
 
-        # Error Message Labels 3 (row 6)
-        self.amount_error_label_3 = Button(self.start_frame,
-                                           font="Arial 14 bold", text="Add Amount", command=self.check_errors)
-        self.amount_error_label_3.grid(row=6, column=1)
+        # Add amount 3 (row 6)
+        self.Add_button_3 = Button(self.question_amount_frame,
+                                   font="Arial 14 bold", text="Add Amount", command=self.check_errors)
+        self.Add_button_3.grid(row=0, column=1)
+
+        # Amount error label (row 5)
+        self.amount_error_label_2 = Label(self.question_amount_frame, fg="maroon",
+                                        text="", font="Arial 10 bold", wrap=275,
+                                        justify=LEFT)
+        self.amount_error_label_2.grid(row=5, columnspan=2, pady=5)
 
         # button frame (row 7)
         self.button_frame = Frame(self.start_frame)
@@ -137,7 +151,7 @@ class Start:
 
         # Change background to white (for testing purposes) ...
         self.question_amount.config(bg="white")
-        self.amount_error_label_3.config(text="")
+        self.amount_error_label_2.config(text="")
 
         try:
             starting_quiz = int(starting_quiz)
@@ -158,7 +172,7 @@ class Start:
 
         if has_errors == "yes":
             self.question_amount.config(bg=error_back)
-            self.amount_error_label_3.config(bg=error_feedback)
+            self.amount_error_label_2.config(text=error_feedback)
 
     def to_quit(self):
         root.destroy()
