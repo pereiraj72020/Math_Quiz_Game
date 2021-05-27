@@ -156,7 +156,7 @@ class Start:
 
         except ValueError:
             has_errors = "yes"
-            error_feedback = "Please enter a whole number (no text / decimals)"
+            error_feedback = "Entry/s Error (blank / no decimals or text)"
 
         if has_errors == "yes":
             self.number_input.config(bg=error_back)
