@@ -1,5 +1,6 @@
 from tkinter import *
 from functools import partial  # To prevent unwanted windows
+import tkinter as tk
 import random
 
 
@@ -28,7 +29,7 @@ class Start:
                                             "is going to be answered. Then select either "
                                             "addition, subtraction, multiplication or division "
                                             "when finished doing the following to start the game. "
-                                            ,
+                                       ,
                                        wrap=275, justify=LEFT, padx=10, pady=10)
         self.math_instructions.grid(row=2)
 
@@ -85,23 +86,23 @@ class Start:
 
         # Addition button (row 7)
         self.addition_button = Button(self.button_frame, text='Addition', bg="#008000", font=button_font,
-                                      fg="white", command=self.check_errors, activebackground="#FFA500")
+                                      fg="white", command=self.check_errors_n_button, activebackground="#FFA500")
 
         self.addition_button.grid(row=0, column=0)
 
         # Subtraction button (row 7)
         self.subtraction_button = Button(self.button_frame, text='Subtraction', bg="#008000", font=button_font,
-                                         fg="white", command=self.check_errors, activebackground="#FFA500")
+                                         fg="white", command=self.check_errors_n_button, activebackground="#FFA500")
         self.subtraction_button.grid(row=0, column=1, padx=5, pady=10)
 
         # Multiplication button (row 7)
         self.multiplication_button = Button(self.button_frame, text='Multiplication', bg="#008000", font=button_font,
-                                            fg="white", command=self.check_errors, activebackground="#FFA500")
+                                            fg="white", command=self.check_errors_n_button, activebackground="#FFA500")
         self.multiplication_button.grid(row=0, column=2, padx=5, pady=10)
 
         # Division button (row 7)
         self.division_button = Button(self.button_frame, text='Division', bg="#008000", font=button_font,
-                                      fg="white", command=self.check_errors, activebackground="#FFA500")
+                                      fg="white", command=self.check_errors_n_button, activebackground="#FFA500")
         self.division_button.grid(row=0, column=3, pady=10)
 
         # Help_Quit frame (row 8)
@@ -120,7 +121,7 @@ class Start:
                                   command=self.to_quit)
         self.quit_button.grid(row=0, column=1, padx=5, pady=10)
 
-    def check_errors(self):
+    def check_errors_n_button(self):
         questions = self.question_amount.get()
 
         num = self.number_input.get()
@@ -155,9 +156,8 @@ class Start:
                 error_feedback = "Max is 20 (How many questions?)"
 
             else:
-                Game(self, questions)
+                Game(self, questions, num)
                 root.withdraw()
-
 
         except ValueError:
             has_errors = "yes"
@@ -166,7 +166,7 @@ class Start:
         if has_errors == "yes":
             self.number_input.config(bg=error_back)
             self.amount_error_label_1.config(text=error_feedback)
-        # elif has_errors == "yes":
+            # elif has_errors == "yes":
             self.question_amount.config(bg=error_back)
             self.amount_error_label_2.config(text=error_feedback)
 
@@ -178,11 +178,14 @@ class Start:
 
 
 class Game:
-    def __init__(self, partner, questions):
+    def __init__(self, partner, questions, num):
         print(questions)
+        print(num)
 
         # GUI Setup
         self.game_box = Toplevel()
+
+        random_number = random.randint(1, 12)
 
         # If users press cross at top, game quits
         self.game_box.protocol('WM_DELETE_WINDOW', self.to_quit)
@@ -204,19 +207,26 @@ class Game:
 
         # Boxes go here (row 2)
 
-        self.answer_frame = Frame(self.game_frame)
-        self.answer_frame.grid(row=2, pady=10)
+        self.random_frame = Frame(self.game_frame)
+        self.random_frame.grid(row=2, pady=10)
 
-        self.number_input = Entry(self.answer_frame, width=5,
-                                  font="Arial 14 bold", justify=CENTER)
-        self.number_input.grid(row=0, column=0, pady=10)
+        self.answer_frame = Frame(self.game_frame)
+        self.answer_frame.grid(row=3, pady=10)
+
+        self.random_number = tk.Label(self.random_frame, text=random_number, width=5,
+                                      font="Arial 14 bold", justify=CENTER, )
+        self.random_number.grid(row=0, column=0, pady=10)
+
+        self.number_input = Entry(self.answer_frame,
+                                  width=5, font="Arial 14 bold", justify=CENTER)
+
+        self.number_input.grid(row=0, column=1, pady=10)
 
     def to_quit(self):
         root.destroy()
 
-    def RandomNumber(self):
-        rand = random.randint(1, 12)
-        random_number.configure(rand)
+    def add_sub_mul_div(self):
+        num_2 = self.random_number.cget(random)
 
 
 class Help:
