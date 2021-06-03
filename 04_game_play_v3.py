@@ -202,6 +202,7 @@ class Game:
         print(add)
         print(subtract)
 
+        # subtraction over addition
         add = "+"
         subtract = "-"
 
