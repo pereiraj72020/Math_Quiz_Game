@@ -116,30 +116,9 @@ class Start:
                                   command=self.to_quit)
         self.quit_button.grid(row=0, column=1, padx=5, pady=10)
 
-        # add, sub, mul, div buttons frame
-        self.add_sub_mul_div_buttons_frame = Frame(self.start_frame)
-        self.add_sub_mul_div_buttons_frame.grid(row=0)
-
-        # add, sub, mul, div buttons
-        # transfer to class Game .get()
-
-        self.addition_button_get = Entry(self.add_sub_mul_div_buttons_frame, width=0,
-                                         font="Arial 0 bold", justify=CENTER)
-        self.addition_button_get.grid(row=0, column=0)
-
-        self.subtraction_button_get = Entry(self.add_sub_mul_div_buttons_frame, width=0,
-                                         font="Arial 0 bold", justify=CENTER)
-        self.subtraction_button_get.grid(row=0, column=1)
-
     def check_errors_n_button(self):
         questions = self.question_amount.get()
         num = self.number_input.get()
-
-        self.addition_button = self.addition_button_get
-        add = self.addition_button_get.get()
-
-        self.subtraction_button = self.subtraction_button_get
-        subtract = self.subtraction_button_get.get()
 
         # add = self.addition_button.get()
 
@@ -174,7 +153,7 @@ class Start:
 
             else:
                 # transfer to class Game
-                Game(self, questions, num, add, subtract)
+                Game(self, questions, num)
                 root.withdraw()
 
         except ValueError:
@@ -196,13 +175,9 @@ class Start:
 
 
 class Game:
-    def __init__(self, partner, questions, num, add, subtract):
+    def __init__(self, partner, questions, num):
         print(questions)
         print(num)
-        print(add)
-        print(subtract)
-
-        add = "+"
 
         # GUI Setup
         self.game_box = Toplevel()
@@ -246,13 +221,6 @@ class Game:
                                  font="Arial 14 bold", justify=CENTER)
         self.user_number.grid(row=0, column=0, pady=10)
 
-        self.add_sym = Label(self.use_ran_sym_frame, text=add, width=5,
-                             font="Arial 14 bold", justify=CENTER)
-        self.add_sym.grid(row=0, column=1, pady=10)
-
-        self.sub_sym = Label(self.use_ran_sym_frame, text=subtract, width=5,
-                             font="Arial 14 bold", justify=CENTER)
-        self.sub_sym.grid(row=0, column=1, pady=10)
 
         self.random_number = Label(self.use_ran_sym_frame, text=random_number, width=5,
                                    font="Arial 14 bold", justify=CENTER)
@@ -262,51 +230,8 @@ class Game:
                                   width=5, font="Arial 14 bold", justify=CENTER)
         self.number_input.grid(row=0, column=0, pady=10)
 
-        # add, sub, mul, div buttons frame
-        self.add_sub_sym_frame = Frame(self.game_frame)
-        self.add_sub_sym_frame.grid(row=0)
-
-        # add, sub, mul, div buttons
-        # transfer to class Game .get()
-
-        self.add_sym_get = Entry(self.add_sub_sym_frame, width=0,
-                                         font="Arial 0 bold", justify=CENTER)
-        self.add_sym_get.grid(row=0, column=0)
-
-        self.sub_sym_get = Entry(self.add_sub_sym_frame, width=0,
-                                            font="Arial 0 bold", justify=CENTER)
-        self.sub_sym_get.grid(row=0, column=1)
-
-
     def to_quit(self):
         root.destroy()
-
-    def sym(self):
-
-        add = self.add_sym_get.get()
-
-        subtract = self.sub_sym_get.get()
-
-        addition_symbol = "+"
-        subtraction_symbol = "-"
-
-
-        try:
-            add = int(add)
-            subtract = int(subtract)
-
-            if add:
-                addition_symbol = "+"
-            elif subtract:
-                subtraction_symbol = "-"
-            else:
-                root.widthdraw()
-
-        except ValueError:
-            addition_symbol = "-"
-            subtraction_symbol = "+"
-
-
 
 
 class Help:
