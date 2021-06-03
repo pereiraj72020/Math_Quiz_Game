@@ -263,20 +263,6 @@ class Game:
                                   width=5, font="Arial 14 bold", justify=CENTER)
         self.number_input.grid(row=0, column=0, pady=10)
 
-        # add, sub, mul, div buttons frame
-        self.add_sub_sym_frame = Frame(self.game_frame)
-        self.add_sub_sym_frame.grid(row=0)
-
-        # add, sub, mul, div buttons
-        # transfer to class Game .get()
-
-        self.add_sym_get = Entry(self.add_sub_sym_frame, width=0,
-                                 font="Arial 0 bold", justify=CENTER)
-        self.add_sym_get.grid(row=0, column=0)
-
-        self.sub_sym_get = Entry(self.add_sub_sym_frame, width=0,
-                                 font="Arial 0 bold", justify=CENTER)
-        self.sub_sym_get.grid(row=0, column=1)
 
     def to_quit(self):
         root.destroy()
