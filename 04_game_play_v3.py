@@ -128,7 +128,7 @@ class Start:
         self.addition_button_get.grid(row=0, column=0)
 
         self.subtraction_button_get = Entry(self.add_sub_mul_div_buttons_frame, width=0,
-                                         font="Arial 0 bold", justify=CENTER)
+                                            font="Arial 0 bold", justify=CENTER)
         self.subtraction_button_get.grid(row=0, column=1)
 
     def check_errors_n_button(self):
@@ -203,6 +203,7 @@ class Game:
         print(subtract)
 
         add = "+"
+        subtract = "-"
 
         # GUI Setup
         self.game_box = Toplevel()
@@ -270,18 +271,15 @@ class Game:
         # transfer to class Game .get()
 
         self.add_sym_get = Entry(self.add_sub_sym_frame, width=0,
-                                         font="Arial 0 bold", justify=CENTER)
+                                 font="Arial 0 bold", justify=CENTER)
         self.add_sym_get.grid(row=0, column=0)
 
         self.sub_sym_get = Entry(self.add_sub_sym_frame, width=0,
-                                            font="Arial 0 bold", justify=CENTER)
+                                 font="Arial 0 bold", justify=CENTER)
         self.sub_sym_get.grid(row=0, column=1)
-
 
     def to_quit(self):
         root.destroy()
-
-
 
 
 class Help:
