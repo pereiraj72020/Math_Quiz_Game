@@ -120,6 +120,8 @@ class Start:
         questions = self.question_amount.get()
         num = self.number_input.get()
 
+
+
         # add = self.addition_button.get()
 
         # Set error background colours (and assume that there are no

@@ -281,31 +281,6 @@ class Game:
     def to_quit(self):
         root.destroy()
 
-    def sym(self):
-
-        add = self.add_sym_get.get()
-
-        subtract = self.sub_sym_get.get()
-
-        addition_symbol = "+"
-        subtraction_symbol = "-"
-
-
-        try:
-            add = int(add)
-            subtract = int(subtract)
-
-            if add:
-                addition_symbol = "+"
-            elif subtract:
-                subtraction_symbol = "-"
-            else:
-                root.widthdraw()
-
-        except ValueError:
-            addition_symbol = "-"
-            subtraction_symbol = "+"
-
 
 
 
