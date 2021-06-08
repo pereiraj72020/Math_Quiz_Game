@@ -82,23 +82,34 @@ class Start:
         # Addition button (row 7)
         self.addition_button = Button(self.button_frame, text='Addition', bg="#008000", font=button_font,
                                       fg="white", command=self.check_errors_n_button, activebackground="#FFA500")
-
         self.addition_button.grid(row=0, column=0)
+
+        self.add_result = 0
+        self.add_operation = ""
 
         # Subtraction button (row 7)
         self.subtraction_button = Button(self.button_frame, text='Subtraction', bg="#008000", font=button_font,
                                          fg="white", command=self.check_errors_n_button, activebackground="#FFA500")
         self.subtraction_button.grid(row=0, column=1, padx=5, pady=10)
 
+        self.sub_result = 0
+        self.sub_operation = ""
+
         # Multiplication button (row 7)
         self.multiplication_button = Button(self.button_frame, text='Multiplication', bg="#008000", font=button_font,
                                             fg="white", command=self.check_errors_n_button, activebackground="#FFA500")
         self.multiplication_button.grid(row=0, column=2, padx=5, pady=10)
 
+        self.mul_result = 0
+        self.mul_operation = ""
+
         # Division button (row 7)
         self.division_button = Button(self.button_frame, text='Division', bg="#008000", font=button_font,
                                       fg="white", command=self.check_errors_n_button, activebackground="#FFA500")
         self.division_button.grid(row=0, column=3, pady=10)
+
+        self.div_result = 0
+        self.div_operation = ""
 
         # Help_Quit frame (row 8)
         self.help_quit_frame = Frame(self.start_frame)
@@ -116,11 +127,34 @@ class Start:
                                   command=self.to_quit)
         self.quit_button.grid(row=0, column=1, padx=5, pady=10)
 
+    def add_clicked(self):
+        if self.add_operation == "plus":
+            self.add_result = self.addition_button
+            self.add_entry.set_text(self.add_result)
+
+    def sub_clicked(self):
+        if self.sub_operation == "subtract":
+            self.sub_result = self.subtraction_button
+            self.sub_entry.set_text(self.sub_result)
+
+    def mul_clicked(self):
+        if self.mul_operation == "multiply":
+            self.mul_result = self.multiplication_button
+            self.mul_entry.set_text(self.mul_result)
+
+    def div_clicked(self):
+        if self.div_operation == "divide":
+            self.div_result = self.division_button
+            self.div_entry.set_text(self.div_result)
+
     def check_errors_n_button(self):
         questions = self.question_amount.get()
         num = self.number_input.get()
 
-
+        plus = self.add_result.get()
+        subtract = self.sub_result.get()
+        multiply = self.mul_result.get()
+        divide = self.div_result.get()
 
         # add = self.addition_button.get()
 
@@ -155,7 +189,7 @@ class Start:
 
             else:
                 # transfer to class Game
-                Game(self, questions, num)
+                Game(self, questions, num, plus, subtract, multiply, divide)
                 root.withdraw()
 
         except ValueError:
@@ -177,9 +211,13 @@ class Start:
 
 
 class Game:
-    def __init__(self, partner, questions, num):
+    def __init__(self, partner, questions, num, plus, subtract, multiply, divide):
         print(questions)
         print(num)
+        print(plus)
+        print(subtract)
+        print(multiply)
+        print(divide)
 
         # GUI Setup
         self.game_box = Toplevel()
@@ -231,6 +269,7 @@ class Game:
         self.number_input = Entry(self.answer_frame,
                                   width=5, font="Arial 14 bold", justify=CENTER)
         self.number_input.grid(row=0, column=0, pady=10)
+
 
     def to_quit(self):
         root.destroy()
