@@ -81,7 +81,8 @@ class Start:
 
         # Addition button (row 7)
         self.addition_button = Button(self.button_frame, text='Addition', bg="#008000", font=button_font,
-                                      fg="white", command=self.check_errors_n_button, activebackground="#FFA500")
+                                      fg="white", command=lambda: ([self.add_clicked], [self.check_errors_n_button]),
+                                      activebackground="#FFA500")
         self.addition_button.grid(row=0, column=0)
 
         self.add_result = 0
@@ -89,7 +90,8 @@ class Start:
 
         # Subtraction button (row 7)
         self.subtraction_button = Button(self.button_frame, text='Subtraction', bg="#008000", font=button_font,
-                                         fg="white", command=self.check_errors_n_button, activebackground="#FFA500")
+                                         fg="white", command=lambda: ([self.sub_clicked], [self.check_errors_n_button]),
+                                         activebackground="#FFA500")
         self.subtraction_button.grid(row=0, column=1, padx=5, pady=10)
 
         self.sub_result = 0
@@ -97,7 +99,8 @@ class Start:
 
         # Multiplication button (row 7)
         self.multiplication_button = Button(self.button_frame, text='Multiplication', bg="#008000", font=button_font,
-                                            fg="white", command=self.check_errors_n_button, activebackground="#FFA500")
+                                            fg="white", command=lambda: ([self.mul_clicked], [self.check_errors_n_button]),
+                                            activebackground="#FFA500")
         self.multiplication_button.grid(row=0, column=2, padx=5, pady=10)
 
         self.mul_result = 0
@@ -105,7 +108,8 @@ class Start:
 
         # Division button (row 7)
         self.division_button = Button(self.button_frame, text='Division', bg="#008000", font=button_font,
-                                      fg="white", command=self.check_errors_n_button, activebackground="#FFA500")
+                                      fg="white", command=lambda: ([self.div_clicked], [self.check_errors_n_button]),
+                                      activebackground="#FFA500")
         self.division_button.grid(row=0, column=3, pady=10)
 
         self.div_result = 0
@@ -261,7 +265,6 @@ class Game:
                                  font="Arial 14 bold", justify=CENTER)
         self.user_number.grid(row=0, column=0, pady=10)
 
-
         self.random_number = Label(self.use_ran_sym_frame, text=random_number, width=5,
                                    font="Arial 14 bold", justify=CENTER)
         self.random_number.grid(row=0, column=2, pady=10)
@@ -269,7 +272,6 @@ class Game:
         self.number_input = Entry(self.answer_frame,
                                   width=5, font="Arial 14 bold", justify=CENTER)
         self.number_input.grid(row=0, column=0, pady=10)
-
 
     def to_quit(self):
         root.destroy()
