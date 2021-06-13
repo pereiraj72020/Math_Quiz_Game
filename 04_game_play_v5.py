@@ -182,11 +182,16 @@ class Game:
     def __init__(self, partner, questions, num, operation):
         print(questions)
         print(num)
+        print(operation)
 
         # **** initialise variables ****
         self.next_question = IntVar()
         # Set questions to amount entered by user at start of game
         self.next_question.set(questions)
+
+        # Get value of math symbol
+        self.math_symbol = IntVar()
+        self.math_symbol.set(operation)
 
         # List for holding statistics
         self.question_stats_list = []
@@ -198,8 +203,7 @@ class Game:
         # If users press cross at top, game quits
         self.game_box.protocol('WM_DELETE_WINDOW', self.to_quit)
 
-        random_number = random.randint(1, 12)
-        to_ask = "{} {} {}".format(num, operation, random_number)
+
 
         self.game_frame = Frame(self.game_box)
         self.game_frame.grid()
@@ -212,7 +216,7 @@ class Game:
 
         # Instructions Label
         self.instructions_label = Label(self.game_frame, wrap=300, justify=LEFT,
-                                        text="Push next to go the next question. ",
+                                        text="Push next to go to the next question. ",
                                         font="Arial 10", padx=10, pady=10)
         self.instructions_label.grid(row=1)
 
@@ -224,13 +228,13 @@ class Game:
         self.push_button_frame = Frame(self.game_frame)
         self.push_button_frame.grid(row=3, pady=10)
 
-        # next_button_frame (row 4)
-        self.next_button_frame = Frame(self.game_frame)
-        self.next_button_frame.grid(row=4, pady=10)
+        # show_questions (row 4)
+        self.show_questions_frame = Frame(self.game_frame)
+        self.show_questions_frame.grid(row=4, pady=10)
 
-        # answer_frame (row 5)
-        self.answer_frame = Frame(self.game_frame)
-        self.answer_frame.grid(row=5, pady=10)
+        # next_button_frame (row 5)
+        self.next_button_frame = Frame(self.game_frame)
+        self.next_button_frame.grid(row=5, pady=10)
 
         # questions_total (row 2, column 0)
         self.questions_total = Label(self.questions_total_frame, text="Questions: {}".format(questions),
@@ -244,7 +248,12 @@ class Game:
                                        font="Arial 11 bold", wrap=225, padx=10, pady=6)
         self.push_button_label.grid(row=0, pady=10)
 
-        # next_button (row 4, column 0)
+        # show_questions (row 4, column 0)
+        self.show_questions = Label(self.show_questions_frame, font="Arial 12 bold",
+                                    fg="green", justify=CENTER, command=lambda: self.next_question_function)
+        self.show_questions.grid(row=0, pady=10)
+
+        # next_button (row 5, column 0)
         self.next_button = Button(self.next_button_frame, text="Next",
                                   bg="#FFA500", fg="black", width=5,
                                   font="Arial 14 bold", justify=CENTER)
@@ -255,44 +264,45 @@ class Game:
         self.next_button.bind('<Return>')
         self.next_button.grid(row=0, column=0, pady=10)
 
-        # Help_Stats frame (row 5)
+        # Help_Stats frame (row 6)
         self.help_stats_frame = Frame(self.game_frame)
-        self.help_stats_frame.grid(row=5)
+        self.help_stats_frame.grid(row=6)
 
-        # Quit frame (row 6)
+        # Quit frame (row 7)
         self.quit_frame = Frame(self.game_frame)
-        self.quit_frame.grid(row=6)
+        self.quit_frame.grid(row=7)
 
-        # Help/Rules Button (row 5)
+        # Help/Rules Button (row 6)
         self.help_button = Button(self.help_stats_frame, text="Help/Rules", bg="#808080",
                                   fg="white", font="Arial 14 bold",
                                   command=self.to_help)
         self.help_button.grid(row=0, column=0)
 
-        # Stats Button (row 5, no command)
+        # Stats Button (row 6, no command yet)
         self.stats_button = Button(self.help_stats_frame, text="Game Stats...", bg="#003366",
                                   fg="white", font="Arial 14 bold")
         self.stats_button.grid(row=0, column=1, padx=5, pady=10)
 
-        # Quit Button (row 8)
+        # Quit Button (row 7)
         self.quit_button = Button(self.quit_frame, text="Quit", bg="#660000",
                                   fg="white", font="Arial 14 bold", width=20,
                                   command=self.to_quit)
         self.quit_button.grid(row=0, column=1, padx=5, pady=10)
 
-        # # add_sub_mul_div_sym (row 3, column 1)
-        # self.add_sub_mul_div_sym = Label(self.push_button_frame, width=5,
-        #                                  font="Arial 14 bold", justify=CENTER)
-        # self.add_sub_mul_div_sym.grid(row=0, column=1, pady=10)
-        #
-        # # random_number (row 3, column 2)
-        # self.random_number = Label(self.push_button_frame, text=to_ask, width=5,
-        #                            font="Arial 14 bold", justify=CENTER)
-        # self.random_number.grid(row=0, column=2, pady=10)
+    def next_question_function(self, questions):
+        # ***** retrieve the next question from the initial function... *****
+        next = self.next_question.get()
+        show = self.show_questions.get()
 
-    # def next_question(self):
-    # # **** retrieve the question from the initial function... ****
-    # current_question = self.next_question.get()
+        for item in range(0, 3):
+            random_number = random.randint(1, 12)
+            to_ask = "{} {} {}".format(num, operation, random_number)
+
+            if next:
+
+
+
+
 
 
 
