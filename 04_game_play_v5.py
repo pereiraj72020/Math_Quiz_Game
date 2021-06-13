@@ -203,8 +203,6 @@ class Game:
         # If users press cross at top, game quits
         self.game_box.protocol('WM_DELETE_WINDOW', self.to_quit)
 
-
-
         self.game_frame = Frame(self.game_box)
         self.game_frame.grid()
 
@@ -237,9 +235,12 @@ class Game:
         self.next_button_frame.grid(row=5, pady=10)
 
         # questions_total (row 2, column 0)
-        self.questions_total = Label(self.questions_total_frame, text="Questions: {}".format(questions),
+        self.questions_total = Label(self.questions_total_frame,
+                                     text="Questions: {} ".format(questions),
                                      width=10, font="Arial 14 bold", justify=CENTER)
         self.questions_total.grid(row=0, column=0, pady=10)
+
+        # question_rise (row 2, column 1)
 
         # push_button_label (row 3, column 0)
         self.push_button_label = Label(self.push_button_frame, text="Push 'Next' for your first question",
@@ -280,7 +281,7 @@ class Game:
 
         # Stats Button (row 6, no command yet)
         self.stats_button = Button(self.help_stats_frame, text="Game Stats...", bg="#003366",
-                                  fg="white", font="Arial 14 bold")
+                                   fg="white", font="Arial 14 bold")
         self.stats_button.grid(row=0, column=1, padx=5, pady=10)
 
         # Quit Button (row 7)
@@ -289,22 +290,19 @@ class Game:
                                   command=self.to_quit)
         self.quit_button.grid(row=0, column=1, padx=5, pady=10)
 
-    def next_question_function(self, questions):
+    def next_question_function(self):
         # ***** retrieve the next question from the initial function... *****
         next = self.next_question.get()
         show = self.show_questions.get()
+
+        question_rise = 0
 
         for item in range(0, 3):
             random_number = random.randint(1, 12)
             to_ask = "{} {} {}".format(num, operation, random_number)
 
             if next:
-
-
-
-
-
-
+                question_rise += 1
 
     def to_quit(self):
         root.destroy()
