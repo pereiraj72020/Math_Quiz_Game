@@ -197,6 +197,10 @@ class Game:
         self.question_stats_list = []
         self.game_stats_list = [questions, questions]
 
+        # question structure
+        random_number = random.randint(1, 12)
+        to_ask = "{} {} {}".format(num, operation, random_number)
+
         # GUI Setup
         self.game_box = Toplevel()
 
@@ -240,17 +244,8 @@ class Game:
                                      width=10, font="Arial 14 bold", justify=CENTER)
         self.questions_total.grid(row=0, column=0, pady=10)
 
-        # question_rise (row 2, column 1)
-        question_rise_amount = 0
-        self.question_rise = Label(self.questions_total_frame,
-                                   text="/ {} ".format(question_rise_amount),
-                                   width=10, font="Arial 14 bold", justify=CENTER,
-                                   command=lambda: self.question_rise_function())
-                                   #command=lambda: self.next_question_function)
-        self.question_rise.grid(row=0, column=1, pady=10)
-
         # push_button_label (row 3, column 0)
-        self.push_button_label = Label(self.push_button_frame, text="Push 'Next' for your first question",
+        self.push_button_label = Label(self.push_button_frame, text="Push 'Next' to go to the next question ",
                                        bg="#FFFF00", fg="black", borderwidth=2,
                                        relief="groove",
                                        font="Arial 11 bold", wrap=225, padx=10, pady=6)
@@ -258,8 +253,13 @@ class Game:
 
         # show_questions (row 4, column 0)
         self.show_questions = Label(self.show_questions_frame, font="Arial 12 bold",
-                                    fg="green", justify=CENTER,) #command=lambda: self.next_question_function)
-        self.show_questions.grid(row=0, pady=10)
+                                    fg="green", justify=CENTER, text="{} = ".format(to_ask))
+        self.show_questions.grid(row=0, column=0, pady=10)
+
+        # answer_show_questions (row 4, column 1)
+        self.answer_show_questions = Entry(self.show_questions_frame, font="Arial 12 bold",
+                                           fg="green", justify=CENTER)
+        self.answer_show_questions.grid(row=0, column=1, pady=10)
 
         # next_button (row 5, column 0)
         self.next_button = Button(self.next_button_frame, text="Next",
@@ -270,7 +270,13 @@ class Game:
 
         self.next_button.focus()
         self.next_button.bind('<Return>')
-        self.next_button.grid(row=0, column=0, pady=10)
+        self.next_button.grid(row=0, column=0, pady=10, padx=10)
+
+        # check_button (row 5, column 1)
+        self.check_button = Button(self.next_button_frame, text="Check",
+                                   bg="#008000", fg="black", width=5,
+                                   font="Arial 14 bold", justify=CENTER)
+        self.check_button.grid(row=0, column=1, pady=10, padx=10)
 
         # Help_Stats frame (row 6)
         self.help_stats_frame = Frame(self.game_frame)
@@ -297,23 +303,19 @@ class Game:
                                   command=self.to_quit)
         self.quit_button.grid(row=0, column=1, padx=5, pady=10)
 
-    def question_rise_function(self):
-        question_rise_amount += 1
-
     # def next_question_function(self):
     #     # ***** retrieve the next question from the initial function... *****
     #     next = self.next_question.get()
     #     show = self.show_questions.get()
-    #     rise = self.question_rise.get()
     #
     #     for item in range(0, 3):
-    #         random_number = random.randint(1, 12)
-    #         to_ask = "{} {} {}".format(num, operation, random_number)
+    #
     #
     #         if next:
-    #             rise += 1
 
 
+
+#
     def to_quit(self):
         root.destroy()
 
