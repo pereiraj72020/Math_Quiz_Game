@@ -200,6 +200,7 @@ class Game:
         # question structure
         random_number = random.randint(1, 12)
         to_ask = "{} {} {}".format(num, operation, random_number)
+        questions_rise = 0
 
         # GUI Setup
         self.game_box = Toplevel()
@@ -240,9 +241,15 @@ class Game:
 
         # questions_total (row 2, column 0)
         self.questions_total = Label(self.questions_total_frame,
-                                     text="Questions: {} ".format(questions),
-                                     width=10, font="Arial 14 bold", justify=CENTER)
+                                     text="{} Of {} Questions Left".format(questions_rise, questions),
+                                     width=35, font="Arial 14 bold", justify=CENTER)
         self.questions_total.grid(row=0, column=0, pady=10)
+
+        # questions_total (row 2, column 0)
+        self.questions_total = Label(self.questions_total_frame,
+                                     text="Questions Left",
+                                     width=35, font="Arial 14 bold", justify=CENTER)
+        self.questions_total.grid(row=0, column=1, pady=10)
 
         # push_button_label (row 3, column 0)
         self.push_button_label = Label(self.push_button_frame, text="Push 'Next' to go to the next question ",
