@@ -266,10 +266,10 @@ class Game:
                                     fg="green", justify=CENTER, text="{} = ".format(to_ask))
         self.show_questions.grid(row=0, column=0, pady=10)
 
-        # answer_show_questions (row 4, column 1)
-        self.answer_show_questions = Entry(self.show_questions_frame, font="Arial 12 bold",
+        # userinput_show_questions (row 4, column 1)
+        self.userinput_show_questions = Entry(self.show_questions_frame, font="Arial 12 bold",
                                            fg="green", justify=CENTER)
-        self.answer_show_questions.grid(row=0, column=1, pady=10)
+        self.userinput_show_questions.grid(row=0, column=1, pady=10)
 
         # next_button (row 5, column 0)
         self.next_button = Button(self.next_button_frame, text="Next",
@@ -316,23 +316,27 @@ class Game:
     def next_question_function(self):
         # ***** retrieve the next question from the initial function... *****
         show = self.show_questions.get()
-        answer = self.answer_show_questions.get()
+        user = self.userinput_show_questions.get()
 
         # Set error background colours (and assume that there are no
         # errors at the start...
-        blank = ""
+        answer = eval(to_ask)
         has_errors = "no"
         error_feedback = ""
+
 
         # Disable all next and check buttons
         self.next_button.config(state=DISABLED)
         self.check_button.config(state=DISABLED)
 
-        for item in range(0, 3):
+        try:
+            show = int(show)
+            user = int(user)
 
-            if blank:
+            if show == answer or show > answer:
                 has_errors = "yes"
-                error_feedback = "Please enter an integer"
+                error_feedback = "Please enter an int"
+                self.check_button.config(NORMAL)
 
     #
     def to_quit(self):
