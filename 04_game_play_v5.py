@@ -36,19 +36,19 @@ class Start:
         self.number_input_text.grid(row=3, pady=10)
 
         # Number input frame (row 4)
-        self.number_input_frame = Frame(self.start_frame)
-        self.number_input_frame.grid(row=4)
+        self.start_number_input_frame = Frame(self.start_frame)
+        self.start_number_input_frame.grid(row=4)
 
         # Number input_1 (row 4)
-        self.number_input = Entry(self.number_input_frame, width=20,
+        self.number_input = Entry(self.start_number_input_frame, width=20,
                                   font="Arial 14 bold", justify=CENTER)
         self.number_input.grid(row=0, column=0, pady=10)
 
         # Amount error label (row 3)
-        self.amount_error_label_1 = Label(self.number_input_frame, fg="maroon",
+        self.start_amount_error_label_1 = Label(self.start_number_input_frame, fg="maroon",
                                           text="", font="Arial 10 bold", wrap=275,
                                           justify=LEFT)
-        self.amount_error_label_1.grid(row=3, columnspan=2, pady=5)
+        self.start_amount_error_label_1.grid(row=3, columnspan=2, pady=5)
 
         # Amount of questions text (row 5)
         self.question_text = Label(self.start_frame, text="How many questions?",
@@ -67,10 +67,10 @@ class Start:
         self.question_amount.grid(row=0, pady=10, column=0)
 
         # Amount error label (row 5)
-        self.amount_error_label_2 = Label(self.question_amount_frame, fg="maroon",
+        self.start_amount_error_label_2 = Label(self.question_amount_frame, fg="maroon",
                                           text="", font="Arial 10 bold", wrap=275,
                                           justify=LEFT)
-        self.amount_error_label_2.grid(row=5, columnspan=2, pady=5)
+        self.start_amount_error_label_2.grid(row=5, columnspan=2, pady=5)
 
         # button frame (row 7)
         self.button_frame = Frame(self.start_frame)
@@ -93,13 +93,13 @@ class Start:
 
         # Multiplication button (row 7)
         self.multiplication_button = Button(self.button_frame, text='Multiplication', bg="#008000", font=button_font,
-                                            fg="white", command=lambda: self.check_errors_n_button("/"),
+                                            fg="white", command=lambda: self.check_errors_n_button("*"),
                                             activebackground="#FFA500")
         self.multiplication_button.grid(row=0, column=2, padx=5, pady=10)
 
         # Division button (row 7)
         self.division_button = Button(self.button_frame, text='Division', bg="#008000", font=button_font,
-                                      fg="white", command=lambda: self.check_errors_n_button("*"),
+                                      fg="white", command=lambda: self.check_errors_n_button("/"),
                                       activebackground="#FFA500")
         self.division_button.grid(row=0, column=3, pady=10)
 
@@ -133,9 +133,9 @@ class Start:
 
         # Change background to white (for testing purposes) ...
         self.number_input.config(bg="white")
-        self.amount_error_label_1.config(text="")
+        self.start_amount_error_label_1.config(text="")
         self.question_amount.config(bg="white")
-        self.amount_error_label_2.config(text="")
+        self.start_amount_error_label_2.config(text="")
 
         try:
             num = int(num)
@@ -165,10 +165,10 @@ class Start:
 
         if has_errors == "yes":
             self.number_input.config(bg=error_back)
-            self.amount_error_label_1.config(text=error_feedback)
+            self.start_amount_error_label_1.config(text=error_feedback)
             # elif has_errors == "yes":
             self.question_amount.config(bg=error_back)
-            self.amount_error_label_2.config(text=error_feedback)
+            self.start_amount_error_label_2.config(text=error_feedback)
 
     def to_quit(self):
         root.withdraw()
@@ -184,13 +184,16 @@ class Game:
         print(operation)
 
         # **** initialise variables ****
-        self.next_question = IntVar()
+        self.num_questions = IntVar()
         # Set questions to amount entered by user at start of game
-        self.next_question.set(questions)
+        self.num_questions.set(questions)
 
         # Get value of math symbol
         self.math_symbol = IntVar()
         self.math_symbol.set(operation)
+
+        # correct answer
+        self.correct_ans = IntVar()
 
         # List for holding statistics
         self.question_stats_list = []
@@ -228,15 +231,19 @@ class Game:
 
         # questions_left_frame (row 3)
         self.questions_left_frame = Frame(self.game_frame)
-        self.questions_left_frame.grid(row=3, pady=10)
+        self.questions_left_frame.grid(row=2, pady=10)
 
         # push_button_frame (row 4)
         self.push_button_frame = Frame(self.game_frame)
-        self.push_button_frame.grid(row=4, pady=10)
+        self.push_button_frame.grid(row=3, pady=10)
 
         # show_questions (row 5)
         self.show_questions_frame = Frame(self.game_frame)
-        self.show_questions_frame.grid(row=5, pady=10)
+        self.show_questions_frame.grid(row=4, pady=10)
+
+        #  math_quiz_number_input_frame(row 5)
+        self.math_quiz_number_input_frame = Frame(self.game_frame)
+        self.math_quiz_number_input_frame.grid(row=5)
 
         # next_button_frame (row 6)
         self.next_button_frame = Frame(self.game_frame)
@@ -244,7 +251,7 @@ class Game:
 
         # questions_total (row 2, column 0)
         self.questions_total = Label(self.questions_total_frame,
-                                     text="{} Of {}".format(questions_rise, questions),
+                                     text="{} of {}".format(questions_rise, questions),
                                      width=35, font="Arial 14 bold", justify=CENTER)
         self.questions_total.grid(row=0, column=0, pady=0)
 
@@ -263,29 +270,34 @@ class Game:
 
         # show_questions (row 4, column 0)
         self.show_questions = Label(self.show_questions_frame, font="Arial 12 bold",
-                                    fg="green", justify=CENTER, text="{} = ".format(to_ask))
+                                    fg="green", justify=CENTER, text="")
         self.show_questions.grid(row=0, column=0, pady=10)
 
-        # userinput_show_questions (row 4, column 1)
-        self.userinput_show_questions = Entry(self.show_questions_frame, font="Arial 12 bold",
+        # user_input_show_questions (row 4, column 1)
+        self.user_input = Entry(self.show_questions_frame, font="Arial 12 bold",
                                            fg="green", justify=CENTER)
-        self.userinput_show_questions.grid(row=0, column=1, pady=10)
+        self.user_input.grid(row=0, column=1, pady=10)
+
+        # Amount error label (row 5, column 0)
+        self.math_quiz_amount_error_label = Label(self.math_quiz_number_input_frame,
+                                                  font="Arial 12 bold", fg="green",
+                                                  wrap=275,justify=CENTER)
+        self.math_quiz_amount_error_label.grid(row=0, column=0)
 
         # next_button (row 5, column 0)
         self.next_button = Button(self.next_button_frame, text="Next",
                                   bg="#FFA500", fg="black", width=5,
-                                  font="Arial 14 bold", justify=CENTER)
+                                  font="Arial 14 bold", justify=CENTER,
+                                  command=self.next_question_function)
 
         # bind button to <enter> (users can push enter to reveal the boxes)
-
-        self.next_button.focus()
-        self.next_button.bind('<Return>')
         self.next_button.grid(row=0, column=0, pady=10, padx=10)
 
         # check_button (row 5, column 1)
         self.check_button = Button(self.next_button_frame, text="Check",
                                    bg="#008000", fg="black", width=5,
-                                   font="Arial 14 bold", justify=CENTER)
+                                   font="Arial 14 bold", justify=CENTER,
+                                   command=self.check_function)
         self.check_button.grid(row=0, column=1, pady=10, padx=10)
 
         # Help_Stats frame (row 7)
@@ -314,31 +326,51 @@ class Game:
         self.quit_button.grid(row=0, column=1, padx=5, pady=10)
 
     def next_question_function(self):
-        # ***** retrieve the next question from the initial function... *****
-        show = self.show_questions.get()
-        user = self.userinput_show_questions.get()
+        # question structure
+        random_number = random.randint(1, 12)
+        num = 3
+        operation = "+"
+        to_ask = "{} {} {}".format(num, operation, random_number)
+
+        self.show_questions.config(text=to_ask)
+
+
+
+    def check_function(self):
+
+        print("you are checking")
+
+        user_input = self.user_input.get()
+        # show_answer = self.show_questions.get(eval(to_ask))
 
         # Set error background colours (and assume that there are no
         # errors at the start...
-        answer = eval(to_ask)
+        error_back = "#ffafaf"
         has_errors = "no"
         error_feedback = ""
 
-
-        # Disable all next and check buttons
+        # Disable next button
         self.next_button.config(state=DISABLED)
-        self.check_button.config(state=DISABLED)
 
         try:
-            show = int(show)
-            user = int(user)
+            user_input = int(user_input)
 
-            if show == answer or show > answer:
+            if user_input > show_answer or user_input < show_answer:
                 has_errors = "yes"
-                error_feedback = "Please enter an int"
-                self.check_button.config(NORMAL)
+                error_feedback = "Incorrect, try again..."
+            else:
+                error_feedback = "Correct!"
+                self.next_button.config(state=NORMAL)
 
-    #
+        except ValueError:
+            has_errors = "yes"
+            error_feedback = "Entry Error (blank / no decimals or text)"
+
+        if has_errors == "yes":
+            self.user_input_show_questions.config(bg=error_back)
+            self.math_quiz_amount_error_label.config(text=error_feedback)
+
+
     def to_quit(self):
         root.destroy()
 
