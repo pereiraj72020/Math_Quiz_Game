@@ -83,7 +83,6 @@ class Start:
         self.addition_button = Button(self.button_frame, text='Addition', bg="#008000", font=button_font,
                                       fg="white", command=lambda: self.check_errors_n_button("+"),
                                       activebackground="#FFA500")
-
         self.addition_button.grid(row=0, column=0)
 
         # Subtraction button (row 7)
@@ -314,19 +313,28 @@ class Game:
                                   command=self.to_quit)
         self.quit_button.grid(row=0, column=1, padx=5, pady=10)
 
-    # def next_question_function(self):
-    #     # ***** retrieve the next question from the initial function... *****
-    #     next = self.next_question.get()
-    #     show = self.show_questions.get()
-    #
-    #     for item in range(0, 3):
-    #
-    #
-    #         if next:
+    def next_question_function(self):
+        # ***** retrieve the next question from the initial function... *****
+        show = self.show_questions.get()
+        answer = self.answer_show_questions.get()
 
+        # Set error background colours (and assume that there are no
+        # errors at the start...
+        blank = ""
+        has_errors = "no"
+        error_feedback = ""
 
+        # Disable all next and check buttons
+        self.next_button.config(state=DISABLED)
+        self.check_button.config(state=DISABLED)
 
-#
+        for item in range(0, 3):
+
+            if blank:
+                has_errors = "yes"
+                error_feedback = "Please enter an integer"
+
+    #
     def to_quit(self):
         root.destroy()
 
