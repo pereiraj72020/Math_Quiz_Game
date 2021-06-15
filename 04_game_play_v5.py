@@ -227,29 +227,33 @@ class Game:
         self.questions_total_frame = Frame(self.game_frame)
         self.questions_total_frame.grid(row=2, pady=10)
 
-        # push_button_frame (row 3)
+        # questions_left_frame (row 3)
+        self.questions_left_frame = Frame(self.game_frame)
+        self.questions_left_frame.grid(row=3, pady=10)
+
+        # push_button_frame (row 4)
         self.push_button_frame = Frame(self.game_frame)
-        self.push_button_frame.grid(row=3, pady=10)
+        self.push_button_frame.grid(row=4, pady=10)
 
-        # show_questions (row 4)
+        # show_questions (row 5)
         self.show_questions_frame = Frame(self.game_frame)
-        self.show_questions_frame.grid(row=4, pady=10)
+        self.show_questions_frame.grid(row=5, pady=10)
 
-        # next_button_frame (row 5)
+        # next_button_frame (row 6)
         self.next_button_frame = Frame(self.game_frame)
-        self.next_button_frame.grid(row=5, pady=10)
+        self.next_button_frame.grid(row=6, pady=10)
 
         # questions_total (row 2, column 0)
         self.questions_total = Label(self.questions_total_frame,
-                                     text="{} Of {} Questions Left".format(questions_rise, questions),
+                                     text="{} Of {}".format(questions_rise, questions),
                                      width=35, font="Arial 14 bold", justify=CENTER)
-        self.questions_total.grid(row=0, column=0, pady=10)
+        self.questions_total.grid(row=0, column=0, pady=0)
 
-        # questions_total (row 2, column 0)
-        self.questions_total = Label(self.questions_total_frame,
+        # questions_total (row 3, column 0)
+        self.questions_total = Label(self.questions_left_frame,
                                      text="Questions Left",
                                      width=35, font="Arial 14 bold", justify=CENTER)
-        self.questions_total.grid(row=0, column=1, pady=10)
+        self.questions_total.grid(row=0, column=0, pady=0)
 
         # push_button_label (row 3, column 0)
         self.push_button_label = Label(self.push_button_frame, text="Push 'Next' to go to the next question ",
@@ -285,13 +289,13 @@ class Game:
                                    font="Arial 14 bold", justify=CENTER)
         self.check_button.grid(row=0, column=1, pady=10, padx=10)
 
-        # Help_Stats frame (row 6)
+        # Help_Stats frame (row 7)
         self.help_stats_frame = Frame(self.game_frame)
-        self.help_stats_frame.grid(row=6)
+        self.help_stats_frame.grid(row=7)
 
-        # Quit frame (row 7)
+        # Quit frame (row 8)
         self.quit_frame = Frame(self.game_frame)
-        self.quit_frame.grid(row=7)
+        self.quit_frame.grid(row=8)
 
         # Help/Rules Button (row 6)
         self.help_button = Button(self.help_stats_frame, text="Help/Rules", bg="#808080",
