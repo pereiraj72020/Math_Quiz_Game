@@ -46,8 +46,8 @@ class Start:
 
         # Amount error label (row 3)
         self.start_amount_error_label_1 = Label(self.start_number_input_frame, fg="maroon",
-                                          text="", font="Arial 10 bold", wrap=275,
-                                          justify=LEFT)
+                                                text="", font="Arial 10 bold", wrap=275,
+                                                justify=LEFT)
         self.start_amount_error_label_1.grid(row=3, columnspan=2, pady=5)
 
         # Amount of questions text (row 5)
@@ -68,8 +68,8 @@ class Start:
 
         # Amount error label (row 5)
         self.start_amount_error_label_2 = Label(self.question_amount_frame, fg="maroon",
-                                          text="", font="Arial 10 bold", wrap=275,
-                                          justify=LEFT)
+                                                text="", font="Arial 10 bold", wrap=275,
+                                                justify=LEFT)
         self.start_amount_error_label_2.grid(row=5, columnspan=2, pady=5)
 
         # button frame (row 7)
@@ -241,13 +241,17 @@ class Game:
         self.show_questions_frame = Frame(self.game_frame)
         self.show_questions_frame.grid(row=5, pady=10)
 
-        #  math_quiz_number_input_frame(row 5)
-        self.math_quiz_number_input_frame = Frame(self.game_frame)
-        self.math_quiz_number_input_frame.grid(row=6)
+        # math_quiz_number_input_frame_1(row 5)
+        self.math_quiz_number_input_frame_1 = Frame(self.game_frame)
+        self.math_quiz_number_input_frame_1.grid(row=6)
+
+        # math_quiz_number_input_frame_2 (row 6)
+        self.math_quiz_number_input_frame_2 = Frame(self.game_frame)
+        self.math_quiz_number_input_frame_2.grid(row=7)
 
         # next_button_frame (row 6)
         self.next_button_frame = Frame(self.game_frame)
-        self.next_button_frame.grid(row=7, pady=10)
+        self.next_button_frame.grid(row=8, pady=10)
 
         # questions_total (row 2, column 0)
         self.questions_total = Label(self.questions_total_frame,
@@ -275,14 +279,20 @@ class Game:
 
         # user_input_show_questions (row 4, column 1)
         self.user_input = Entry(self.show_questions_frame, font="Arial 12 bold",
-                                           fg="green", justify=CENTER)
+                                fg="green", justify=CENTER)
         self.user_input.grid(row=0, column=1, pady=10)
 
         # Amount error label (row 5, column 0)
-        self.math_quiz_amount_error_label = Label(self.math_quiz_number_input_frame,
-                                                  font="Arial 12 bold", fg="green",
-                                                  wrap=275, justify=CENTER)
-        self.math_quiz_amount_error_label.grid(row=0, column=0)
+        self.math_quiz_amount_error_label_1 = Label(self.math_quiz_number_input_frame_1,
+                                                    font="Arial 12 bold", fg="green",
+                                                    wrap=275, justify=CENTER)
+        self.math_quiz_amount_error_label_1.grid(row=0, column=0)
+
+        # Amount error label (row 5, column 0)
+        self.math_quiz_amount_error_label_2 = Label(self.math_quiz_number_input_frame_2,
+                                                    font="Arial 12 bold", fg="green",
+                                                    wrap=275, justify=CENTER)
+        self.math_quiz_amount_error_label_2.grid(row=0, column=0)
 
         # next_button (row 5, column 0)
         self.next_button = Button(self.next_button_frame, text="Next",
@@ -302,11 +312,11 @@ class Game:
 
         # Help_Stats frame (row 7)
         self.help_stats_frame = Frame(self.game_frame)
-        self.help_stats_frame.grid(row=8)
+        self.help_stats_frame.grid(row=9)
 
         # Quit frame (row 8)
         self.quit_frame = Frame(self.game_frame)
-        self.quit_frame.grid(row=9)
+        self.quit_frame.grid(row=10)
 
         # Help/Rules Button (row 6)
         self.help_button = Button(self.help_stats_frame, text="Help/Rules", bg="#808080",
@@ -332,23 +342,36 @@ class Game:
         operation = "+"
         to_ask = "{} {} {}".format(num, operation, random_number)
 
+        ask_question = self.show_questions.config(text=to_ask)
+
+        # user_input = self.user_input.get()
+
+        # user input disabled
+        self.user_input.config(state=DISABLED)
+
         # Set error background colours (and assume that there are no
         # errors at the start...
         error_back = "#ffafaf"
         has_errors = "no"
         error_feedback = ""
 
-        ask_question = self.show_questions.config(text=to_ask)
-
         try:
             ask_question = int(ask_question)
+            # user_input = int(user_input)
 
             if ask_question:
+                has_errors = "yes"
+                error_feedback = "'Check' first to click 'Next' again..."
                 self.show_questions.config(state=DISABLED)
-
             else:
-                
+                self.user_input.config(state=NORMAL)
 
+        except ValueError:
+            has_errors = "yes"
+
+        if has_errors == "yes":
+            self.show_questions.config(bg=error_back)
+            self.math_quiz_amount_error_label_1.config(text=error_feedback)
 
     def check_function(self):
 
@@ -366,11 +389,11 @@ class Game:
         try:
             user_input = int(user_input)
 
-            if user_input > show_answer or user_input < show_answer:
+            if user_input:
                 has_errors = "yes"
                 error_feedback = "Incorrect, try again..."
             else:
-                error_feedback = "Correct!"
+                print("Correct!")
                 self.next_button.config(state=NORMAL)
 
         except ValueError:
@@ -379,8 +402,7 @@ class Game:
 
         if has_errors == "yes":
             self.user_input_show_questions.config(bg=error_back)
-            self.math_quiz_amount_error_label.config(text=error_feedback)
-
+            self.math_quiz_amount_error_label_1.config(text=error_feedback)
 
     def to_quit(self):
         root.destroy()
