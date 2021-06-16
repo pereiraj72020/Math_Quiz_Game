@@ -130,6 +130,7 @@ class Start:
         error_back = "#ffafaf"
         has_errors = "no"
         error_feedback = ""
+        question_rise = 0
 
         # Change background to white (for testing purposes) ...
         self.number_input.config(bg="white")
@@ -156,7 +157,7 @@ class Start:
 
             else:
                 # transfer to class Game
-                Game(self, questions, num, operation)
+                Game(self, questions, num, operation, question_rise)
                 root.withdraw()
 
         except ValueError:
@@ -178,10 +179,11 @@ class Start:
 
 
 class Game:
-    def __init__(self, partner, questions, num, operation):
+    def __init__(self, partner, questions, num, operation, question_rise):
         print(questions)
         print(num)
         print(operation)
+        print(question_rise)
 
         # **** initialise variables ****
         self.num_questions = IntVar()
@@ -195,6 +197,10 @@ class Game:
         self.num_operation = StringVar()
         # Set operation to amount entered by user at start of game
         self.num_operation.set(operation)
+
+        self.num_question_rise = IntVar()
+        # Set question_rise 0
+        self.num_question_rise.set(question_rise)
 
         # Get value of math symbol
         self.math_symbol = IntVar()
@@ -330,10 +336,13 @@ class Game:
 
     def next_question_function(self):
 
+        user_input = self.user_input.get()
+
         # **** variables included ****
         num = self.num_to_use.get()
         operation = self.num_operation.get()
         questions = self.num_questions.get()
+        question_rise = self.num_question_rise.get()
 
         # random number
         random_number = random.randint(1, 12)
@@ -342,19 +351,15 @@ class Game:
         to_ask = "{} {} {}".format(num, operation, random_number)
         self.show_questions.config(text=to_ask)
 
-        # amount of questions structure
-        question_rise = 0
+        for item in range(0, 20):
+            # amount of questions structure
+            question_amount = "{} of {}".format(question_rise, questions)
+            self.questions_total.config(text=question_amount)
 
-        question_amount = "{} of {}".format(question_rise, questions)
-        self.questions_total.config(text=question_amount)
-
-        for item in range (0, 20):
-
-            if
-
-
-
-
+            if user_input:
+                question_rise = +1
+            else:
+                root.withdraw()
 
     def check_function(self):
 
