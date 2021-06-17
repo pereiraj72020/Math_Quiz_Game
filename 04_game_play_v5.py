@@ -213,27 +213,35 @@ class Game:
         self.instructions_label = Label(self.game_frame, wrap=300, justify=LEFT,
                                         text="Push next to go to the next question. ",
                                         font="Arial 10", padx=10, pady=10)
-        self.instructions_label.grid(row=1)
+        self.instructions_label.grid(row=1, pady=20)
 
         # questions_total_frame (row 2)
         self.questions_total_frame = Frame(self.game_frame)
-        self.questions_total_frame.grid(row=2, pady=10)
+        self.questions_total_frame.grid(row=2)
 
         # push_button_frame (row 3)
         self.push_button_frame = Frame(self.game_frame)
-        self.push_button_frame.grid(row=3, pady=10)
+        self.push_button_frame.grid(row=3)
 
-        # show_questions (row 4)
+        # show_questions_frame (row 4)
         self.show_questions_frame = Frame(self.game_frame)
-        self.show_questions_frame.grid(row=4, pady=10)
+        self.show_questions_frame.grid(row=4)
+
+        # answer_here_frame (row 5)
+        self.answer_here_frame = Frame(self.game_frame)
+        self.answer_here_frame.grid(row=5)
+
+        # user_input_frame (row 5)
+        self.user_input_frame = Frame(self.game_frame)
+        self.user_input_frame.grid(row=6)
 
         # math_quiz_number_input_frame_1(row 5)
         self.math_quiz_number_input_frame_1 = Frame(self.game_frame)
-        self.math_quiz_number_input_frame_1.grid(row=5)
+        self.math_quiz_number_input_frame_1.grid(row=7)
 
         # next_button_frame (row 6)
         self.next_button_frame = Frame(self.game_frame)
-        self.next_button_frame.grid(row=6, pady=10)
+        self.next_button_frame.grid(row=8)
 
         # questions_total (row 2, column 0)
         self.questions_total = Label(self.questions_total_frame,
@@ -243,26 +251,33 @@ class Game:
 
         # push_button_label (row 3, column 0)
         self.push_button_label = Label(self.push_button_frame, text="Push 'Next' to go to the next question ",
-                                       bg="#FFFF00", fg="black", borderwidth=2,
+                                       bg="#FFA500", fg="black", borderwidth=2,
                                        relief="groove",
                                        font="Arial 11 bold", wrap=225, padx=10, pady=6)
-        self.push_button_label.grid(row=0, pady=10)
+        self.push_button_label.grid(row=0, pady=20)
 
         # show_questions (row 4, column 0)
-        self.show_questions = Label(self.show_questions_frame, font="Arial 12 bold",
+        self.show_questions = Label(self.show_questions_frame, font="Arial 15 bold",
                                     fg="green", justify=CENTER, text="")
-        self.show_questions.grid(row=0, column=0, pady=10)
+        self.show_questions.grid(row=0, column=0)
+
+        # answer_here (row 5, column 0)
+        self.answer_here = Label(self.answer_here_frame, font="Arial 11 bold",
+                                 wrap=225, relief="groove", justify=LEFT,
+                                 bg="#FFFF00", fg="black", borderwidth=2,
+                                 text="Answer Here...", padx=10, pady=6)
+        self.answer_here.grid(row=0, pady=10)
 
         # user_input_show_questions (row 4, column 1)
-        self.user_input = Entry(self.show_questions_frame, font="Arial 12 bold",
-                                fg="black", justify=CENTER)
-        self.user_input.grid(row=0, column=1, pady=10)
+        self.user_input = Entry(self.user_input_frame, font="Arial 20 bold",
+                                fg="black", justify=CENTER, width=10)
+        self.user_input.grid(row=0, column=0, pady=10, ipady=10)
 
         # Amount error label (row 5, column 0)
         self.math_quiz_amount_error_label_1 = Label(self.math_quiz_number_input_frame_1,
                                                     font="Arial 12 bold", fg="black",
                                                     wrap=275, justify=CENTER)
-        self.math_quiz_amount_error_label_1.grid(row=0, column=0)
+        self.math_quiz_amount_error_label_1.grid(row=0, column=0, pady=20)
 
         # next_button (row 5, column 0)
         self.next_button = Button(self.next_button_frame, text="Next",
@@ -282,11 +297,11 @@ class Game:
 
         # Help_Stats frame (row 7)
         self.help_stats_frame = Frame(self.game_frame)
-        self.help_stats_frame.grid(row=7)
+        self.help_stats_frame.grid(row=9)
 
         # Quit frame (row 8)
         self.quit_frame = Frame(self.game_frame)
-        self.quit_frame.grid(row=8)
+        self.quit_frame.grid(row=10)
 
         # Help/Rules Button (row 7)
         self.help_button = Button(self.help_stats_frame, text="Help/Rules", bg="#808080",
@@ -330,7 +345,7 @@ class Game:
         self.questions_total.config(text=question_amount)
 
         # question structure
-        to_ask = "{} {} {}".format(num, operation, random_number)
+        to_ask = "{} {} {} =".format(num, operation, random_number)
         self.show_questions.config(text=to_ask)
 
         if questions == 0:
