@@ -130,7 +130,6 @@ class Start:
         error_back = "#ffafaf"
         has_errors = "no"
         error_feedback = ""
-        question_rise = 0
 
         # Change background to white (for testing purposes) ...
         self.number_input.config(bg="white")
@@ -157,7 +156,7 @@ class Start:
 
             else:
                 # transfer to class Game
-                Game(self, questions, num, operation, question_rise)
+                Game(self, questions, num, operation)
                 root.withdraw()
 
         except ValueError:
@@ -179,11 +178,10 @@ class Start:
 
 
 class Game:
-    def __init__(self, partner, questions, num, operation, question_rise):
+    def __init__(self, partner, questions, num, operation):
         print(questions)
         print(num)
         print(operation)
-        print(question_rise)
 
         # **** initialise variables ****
         self.num_questions = IntVar()
@@ -197,17 +195,6 @@ class Game:
         self.num_operation = StringVar()
         # Set operation to amount entered by user at start of game
         self.num_operation.set(operation)
-
-        self.num_question_rise = IntVar()
-        # Set question_rise 0
-        self.num_question_rise.set(question_rise)
-
-        # Get value of math symbol
-        self.math_symbol = IntVar()
-        self.math_symbol.set(operation)
-
-        # correct answer
-        self.correct_ans = IntVar()
 
         # List for holding statistics
         self.question_stats_list = []
@@ -238,36 +225,26 @@ class Game:
         self.questions_total_frame = Frame(self.game_frame)
         self.questions_total_frame.grid(row=2, pady=10)
 
-        # questions_left_frame (row 3)
-        self.questions_left_frame = Frame(self.game_frame)
-        self.questions_left_frame.grid(row=3, pady=10)
-
-        # push_button_frame (row 4)
+        # push_button_frame (row 3)
         self.push_button_frame = Frame(self.game_frame)
-        self.push_button_frame.grid(row=4, pady=10)
+        self.push_button_frame.grid(row=3, pady=10)
 
-        # show_questions (row 5)
+        # show_questions (row 4)
         self.show_questions_frame = Frame(self.game_frame)
-        self.show_questions_frame.grid(row=5, pady=10)
+        self.show_questions_frame.grid(row=4, pady=10)
 
         # math_quiz_number_input_frame_1(row 5)
         self.math_quiz_number_input_frame_1 = Frame(self.game_frame)
-        self.math_quiz_number_input_frame_1.grid(row=6)
+        self.math_quiz_number_input_frame_1.grid(row=5)
 
         # next_button_frame (row 6)
         self.next_button_frame = Frame(self.game_frame)
-        self.next_button_frame.grid(row=7, pady=10)
+        self.next_button_frame.grid(row=6, pady=10)
 
         # questions_total (row 2, column 0)
         self.questions_total = Label(self.questions_total_frame,
                                      text="", width=35, font="Arial 14 bold",
                                      justify=CENTER)
-        self.questions_total.grid(row=0, column=0, pady=0)
-
-        # questions_total (row 3, column 0)
-        self.questions_total = Label(self.questions_left_frame,
-                                     text="Questions Left",
-                                     width=35, font="Arial 14 bold", justify=CENTER)
         self.questions_total.grid(row=0, column=0, pady=0)
 
         # push_button_label (row 3, column 0)
@@ -311,24 +288,24 @@ class Game:
 
         # Help_Stats frame (row 7)
         self.help_stats_frame = Frame(self.game_frame)
-        self.help_stats_frame.grid(row=8)
+        self.help_stats_frame.grid(row=7)
 
         # Quit frame (row 8)
         self.quit_frame = Frame(self.game_frame)
-        self.quit_frame.grid(row=9)
+        self.quit_frame.grid(row=8)
 
-        # Help/Rules Button (row 6)
+        # Help/Rules Button (row 7)
         self.help_button = Button(self.help_stats_frame, text="Help/Rules", bg="#808080",
                                   fg="white", font="Arial 14 bold",
                                   command=self.to_help)
         self.help_button.grid(row=0, column=0)
 
-        # Stats Button (row 6, no command yet)
+        # Stats Button (row 7, no command yet)
         self.stats_button = Button(self.help_stats_frame, text="Game Stats...", bg="#003366",
                                    fg="white", font="Arial 14 bold")
         self.stats_button.grid(row=0, column=1, padx=5, pady=10)
 
-        # Quit Button (row 7)
+        # Quit Button (row 8)
         self.quit_button = Button(self.quit_frame, text="Quit", bg="#660000",
                                   fg="white", font="Arial 14 bold", width=20,
                                   command=self.to_quit)
@@ -342,7 +319,17 @@ class Game:
         num = self.num_to_use.get()
         operation = self.num_operation.get()
         questions = self.num_questions.get()
-        question_rise = self.num_question_rise.get()
+
+        questions -= 1
+
+        self.num_questions.set(questions)
+
+        if questions == 0:
+            print("No more questions...")
+
+        # amount of questions structure
+        question_amount = "{} Question/s Left...".format(questions)
+        self.questions_total.config(text=question_amount)
 
         # random number
         random_number = random.randint(1, 12)
@@ -351,21 +338,17 @@ class Game:
         to_ask = "{} {} {}".format(num, operation, random_number)
         self.show_questions.config(text=to_ask)
 
-        for item in range(0, 20):
-            # amount of questions structure
-            question_amount = "{} of {}".format(question_rise, questions)
-            self.questions_total.config(text=question_amount)
-
-            if user_input:
-                question_rise = +1
-            else:
-                root.withdraw()
-
     def check_function(self):
 
         print("you are checking")
 
         user_input = self.user_input.get()
+        num = self.num_to_use.get()
+        operation = self.num_operation.get()
+
+        # correct answer structure
+        to_answer = eval("{} {} {}".format(num, operation, random_number))
+        self.user_input.config(text=to_answer)
 
         # Set error background colours (and assume that there are no
         # errors at the start...
@@ -376,11 +359,11 @@ class Game:
         try:
             user_input = int(user_input)
 
-            if user_input:
+            if user_input == to_answer:
+                error_feedback = "Correct!"
+            else:
                 has_errors = "yes"
                 error_feedback = "Incorrect, try again..."
-            else:
-                error_feedback = "Correct!"
                 self.next_button.config(state=NORMAL)
 
         except ValueError:
