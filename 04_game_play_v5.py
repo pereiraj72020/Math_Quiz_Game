@@ -97,12 +97,6 @@ class Start:
                                             activebackground="#FFA500")
         self.multiplication_button.grid(row=0, column=2, padx=5, pady=10)
 
-        # Division button (row 7)
-        self.division_button = Button(self.button_frame, text='Division', bg="#008000", font=button_font,
-                                      fg="white", command=lambda: self.check_errors_n_button("/"),
-                                      activebackground="#FFA500")
-        self.division_button.grid(row=0, column=3, pady=10)
-
         # Help_Quit frame (row 8)
         self.help_quit_frame = Frame(self.start_frame)
         self.help_quit_frame.grid(row=8)
@@ -130,6 +124,8 @@ class Start:
         error_back = "#ffafaf"
         has_errors = "no"
         error_feedback = ""
+        # random number
+        random_number = random.randint(1, 12)
 
         # Change background to white (for testing purposes) ...
         self.number_input.config(bg="white")
@@ -156,7 +152,7 @@ class Start:
 
             else:
                 # transfer to class Game
-                Game(self, questions, num, operation)
+                Game(self, questions, num, operation, random_number)
                 root.withdraw()
 
         except ValueError:
@@ -178,7 +174,7 @@ class Start:
 
 
 class Game:
-    def __init__(self, partner, questions, num, operation):
+    def __init__(self, partner, questions, num, operation, random_number):
         print(questions)
         print(num)
         print(operation)
@@ -195,6 +191,10 @@ class Game:
         self.num_operation = StringVar()
         # Set operation to amount entered by user at start of game
         self.num_operation.set(operation)
+
+        self.num_random = IntVar()
+        # Set operation to random amount at start of game
+        self.num_random.set(random_number)
 
         # List for holding statistics
         self.question_stats_list = []
@@ -319,20 +319,20 @@ class Game:
         num = self.num_to_use.get()
         operation = self.num_operation.get()
         questions = self.num_questions.get()
+        random_number = self.num_random.get()
 
         questions -= 1
 
+        # Reset questions
         self.num_questions.set(questions)
 
         if questions == 0:
             print("No more questions...")
+            
 
         # amount of questions structure
         question_amount = "{} Question/s Left...".format(questions)
         self.questions_total.config(text=question_amount)
-
-        # random number
-        random_number = random.randint(1, 12)
 
         # question structure
         to_ask = "{} {} {}".format(num, operation, random_number)
@@ -345,6 +345,7 @@ class Game:
         user_input = self.user_input.get()
         num = self.num_to_use.get()
         operation = self.num_operation.get()
+        random_number = self.num_random.get()
 
         # correct answer structure
         to_answer = eval("{} {} {}".format(num, operation, random_number))
@@ -353,26 +354,23 @@ class Game:
         # Set error background colours (and assume that there are no
         # errors at the start...
         error_back = "#ffafaf"
-        has_errors = "no"
-        error_feedback = ""
+        correct_incorrect = "no"
+        answer_feedback = ""
 
         try:
             user_input = int(user_input)
 
             if user_input == to_answer:
-                error_feedback = "Correct!"
-            else:
-                has_errors = "yes"
-                error_feedback = "Incorrect, try again..."
-                self.next_button.config(state=NORMAL)
+                correct_incorrect = "yes"
+                answer_feedback = "Correct!"
 
         except ValueError:
-            has_errors = "yes"
-            error_feedback = "Entry Error (blank / no decimals or text)"
+            correct_incorrect = "yes"
+            answer_feedback = "Entry Error (blank / no decimals or text)"
 
-        if has_errors == "yes":
+        if correct_incorrect == "yes":
             self.user_input.config(bg=error_back)
-            self.math_quiz_amount_error_label_1.config(text=error_feedback)
+            self.math_quiz_amount_error_label_1.config(text=answer_feedback)
 
     def to_quit(self):
         root.destroy()
