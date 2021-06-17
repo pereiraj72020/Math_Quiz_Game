@@ -260,7 +260,7 @@ class Game:
 
         # Amount error label (row 5, column 0)
         self.math_quiz_amount_error_label_1 = Label(self.math_quiz_number_input_frame_1,
-                                                    font="Arial 12 bold", fg="red",
+                                                    font="Arial 12 bold", fg="black",
                                                     wrap=275, justify=CENTER)
         self.math_quiz_amount_error_label_1.grid(row=0, column=0)
 
@@ -355,7 +355,7 @@ class Game:
 
         # Set error background colours (and assume that there are no
         # errors at the start...
-        incorrect_back = "#ffafaf"
+        incorrect_back = "maroon"
         correct_back = "#008000"
         correct = "no"
         incorrect = "no"
@@ -379,9 +379,11 @@ class Game:
 
         if incorrect == "yes":
             self.user_input.config(bg=incorrect_back)
+            self.math_quiz_amount_error_label_1.config(fg=incorrect_back)
             self.math_quiz_amount_error_label_1.config(text=answer_feedback)
         elif correct == "yes":
             self.user_input.config(bg=correct_back)
+            self.math_quiz_amount_error_label_1.config(fg=correct_back)
             self.math_quiz_amount_error_label_1.config(text=answer_feedback)
 
     def to_quit(self):
