@@ -291,7 +291,7 @@ class Game:
         # check_button (row 5, column 1)
         self.check_button = Button(self.next_button_frame, text="Check",
                                    bg="#008000", fg="black", width=5,
-                                   font="Arial 14 bold", justify=CENTER,
+                                   font="Arial 14 bold", justify=CENTER, state=DISABLED,
                                    command=self.check_function)
         self.check_button.grid(row=0, column=1, pady=10, padx=10)
 
@@ -322,6 +322,8 @@ class Game:
 
     def next_question_function(self):
 
+        self.check_button.config(state=NORMAL)
+
         # **** variables included ****
         num = self.num_to_use.get()
         operation = self.num_operation.get()
@@ -351,9 +353,6 @@ class Game:
         if questions == 0:
             self.next_button.config(state=DISABLED)
             print("No more questions...")
-        else:
-            self.next_button.config(state=DISABLED)
-
 
     def check_function(self):
 
@@ -410,7 +409,7 @@ class Game:
             self.user_input.config(bg=correct_back)
             self.math_quiz_amount_error_label_1.config(fg=correct_back)
             self.math_quiz_amount_error_label_1.config(text=answer_feedback)
-
+    
     def to_quit(self):
         root.destroy()
 
