@@ -354,6 +354,9 @@ class Game:
             self.next_button.config(state=DISABLED)
             print("No more questions...")
 
+        else:
+            self.next_button.config(state=DISABLED)
+
     def check_function(self):
 
         print("you are checking")
