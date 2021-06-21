@@ -177,9 +177,6 @@ class Game:
         print(num)
         print(operation)
 
-        # random number
-        random_number = random.randint(1, 12)
-
         # **** initialise variables ****
         self.num_questions = IntVar()
         # Set questions to amount entered by user at start of game
@@ -192,10 +189,6 @@ class Game:
         self.num_operation = StringVar()
         # Set operation to amount entered by user at start of game
         self.num_operation.set(operation)
-
-        self.num_random = IntVar()
-        # Set random number at start of game
-        self.num_random.set(random_number)
 
         # List for holding statistics
         self.question_stats_list = []
@@ -218,29 +211,41 @@ class Game:
 
         # Instructions Label
         self.instructions_label = Label(self.game_frame, wrap=300, justify=LEFT,
-                                        text="Push next to go to the next question. ",
+                                        text="Type in an appropriate integer in the box below "
+                                             "after the equals sign to answer the question. "
+                                             "<Click> on Next to advance to the next question. "
+                                             "<Click> on Check to see if answer is correct or "
+                                             "incorrect. ",
                                         font="Arial 10", padx=10, pady=10)
-        self.instructions_label.grid(row=1)
+        self.instructions_label.grid(row=1, pady=20)
 
         # questions_total_frame (row 2)
         self.questions_total_frame = Frame(self.game_frame)
-        self.questions_total_frame.grid(row=2, pady=10)
+        self.questions_total_frame.grid(row=2)
 
         # push_button_frame (row 3)
         self.push_button_frame = Frame(self.game_frame)
-        self.push_button_frame.grid(row=3, pady=10)
+        self.push_button_frame.grid(row=3)
 
-        # show_questions (row 4)
+        # show_questions_frame (row 4)
         self.show_questions_frame = Frame(self.game_frame)
-        self.show_questions_frame.grid(row=4, pady=10)
+        self.show_questions_frame.grid(row=4)
+
+        # answer_here_frame (row 5)
+        self.answer_here_frame = Frame(self.game_frame)
+        self.answer_here_frame.grid(row=5)
+
+        # user_input_frame (row 5)
+        self.user_input_frame = Frame(self.game_frame)
+        self.user_input_frame.grid(row=6)
 
         # math_quiz_number_input_frame_1(row 5)
         self.math_quiz_number_input_frame_1 = Frame(self.game_frame)
-        self.math_quiz_number_input_frame_1.grid(row=5)
+        self.math_quiz_number_input_frame_1.grid(row=7)
 
         # next_button_frame (row 6)
         self.next_button_frame = Frame(self.game_frame)
-        self.next_button_frame.grid(row=6, pady=10)
+        self.next_button_frame.grid(row=8)
 
         # questions_total (row 2, column 0)
         self.questions_total = Label(self.questions_total_frame,
@@ -250,26 +255,33 @@ class Game:
 
         # push_button_label (row 3, column 0)
         self.push_button_label = Label(self.push_button_frame, text="Push 'Next' to go to the next question ",
-                                       bg="#FFFF00", fg="black", borderwidth=2,
+                                       bg="#FFA500", fg="black", borderwidth=2,
                                        relief="groove",
                                        font="Arial 11 bold", wrap=225, padx=10, pady=6)
-        self.push_button_label.grid(row=0, pady=10)
+        self.push_button_label.grid(row=0, pady=20)
 
         # show_questions (row 4, column 0)
-        self.show_questions = Label(self.show_questions_frame, font="Arial 12 bold",
+        self.show_questions = Label(self.show_questions_frame, font="Arial 15 bold",
                                     fg="green", justify=CENTER, text="")
-        self.show_questions.grid(row=0, column=0, pady=10)
+        self.show_questions.grid(row=0, column=0)
+
+        # answer_here (row 5, column 0)
+        self.answer_here = Label(self.answer_here_frame, font="Arial 11 bold",
+                                 wrap=225, relief="groove", justify=LEFT,
+                                 bg="#FFFF00", fg="black", borderwidth=2,
+                                 text="Answer Here...", padx=10, pady=6)
+        self.answer_here.grid(row=0, pady=10)
 
         # user_input_show_questions (row 4, column 1)
-        self.user_input = Entry(self.show_questions_frame, font="Arial 12 bold",
-                                fg="black", justify=CENTER)
-        self.user_input.grid(row=0, column=1, pady=10)
+        self.user_input = Entry(self.user_input_frame, font="Arial 20 bold",
+                                fg="black", justify=CENTER, width=10)
+        self.user_input.grid(row=0, column=0, pady=10, ipady=10)
 
         # Amount error label (row 5, column 0)
         self.math_quiz_amount_error_label_1 = Label(self.math_quiz_number_input_frame_1,
-                                                    font="Arial 12 bold", fg="red",
+                                                    font="Arial 12 bold", fg="black",
                                                     wrap=275, justify=CENTER)
-        self.math_quiz_amount_error_label_1.grid(row=0, column=0)
+        self.math_quiz_amount_error_label_1.grid(row=0, column=0, pady=20)
 
         # next_button (row 5, column 0)
         self.next_button = Button(self.next_button_frame, text="Next",
@@ -283,17 +295,17 @@ class Game:
         # check_button (row 5, column 1)
         self.check_button = Button(self.next_button_frame, text="Check",
                                    bg="#008000", fg="black", width=5,
-                                   font="Arial 14 bold", justify=CENTER,
+                                   font="Arial 14 bold", justify=CENTER, state=DISABLED,
                                    command=self.check_function)
         self.check_button.grid(row=0, column=1, pady=10, padx=10)
 
         # Help_Stats frame (row 7)
         self.help_stats_frame = Frame(self.game_frame)
-        self.help_stats_frame.grid(row=7)
+        self.help_stats_frame.grid(row=9)
 
         # Quit frame (row 8)
         self.quit_frame = Frame(self.game_frame)
-        self.quit_frame.grid(row=8)
+        self.quit_frame.grid(row=10)
 
         # Help/Rules Button (row 7)
         self.help_button = Button(self.help_stats_frame, text="Help/Rules", bg="#808080",
@@ -314,12 +326,21 @@ class Game:
 
     def next_question_function(self):
 
+        self.check_button.config(state=NORMAL)
+
         # **** variables included ****
         num = self.num_to_use.get()
         operation = self.num_operation.get()
         questions = self.num_questions.get()
-        random_number = self.num_random.get()
 
+        # random number
+        random_number = random.randint(1, 12)
+
+        # carry over to check_function
+        self.num_random = IntVar()
+        self.num_random.set(random_number)
+
+        # question down by 1
         questions -= 1
 
         # Reset questions
@@ -330,15 +351,16 @@ class Game:
         self.questions_total.config(text=question_amount)
 
         # question structure
-        to_ask = "{} {} {}".format(num, operation, random_number)
+        to_ask = "{} {} {} =".format(num, operation, random_number)
         self.show_questions.config(text=to_ask)
 
         if questions == 0:
             self.next_button.config(state=DISABLED)
+            self.check_button.config(state=DISABLED)
             print("No more questions...")
+
         else:
-            # Set random_number
-            self.num_random.set(random_number)
+            self.next_button.config(state=DISABLED)
 
     def check_function(self):
 
@@ -358,7 +380,7 @@ class Game:
 
         # Set error background colours (and assume that there are no
         # errors at the start...
-        incorrect_back = "#ffafaf"
+        incorrect_back = "maroon"
         correct_back = "#008000"
         correct = "no"
         incorrect = "no"
@@ -370,10 +392,19 @@ class Game:
             if user_input == to_answer:
                 correct = "yes"
                 answer_feedback = "Correct!"
+                print("Correct!")
+                self.check_button.config(state=DISABLED)
+                self.next_button.config(state=NORMAL)
 
-            else:
+            elif user_input > to_answer or user_input < to_answer:
                 incorrect = "yes"
                 answer_feedback = "Incorrect, try again..."
+                print("Incorrect, try again...")
+                self.check_button.config(state=DISABLED)
+                self.next_button.config(state=NORMAL)
+
+            else:
+                self.check_button.config(state=NORMAL)
 
         except ValueError:
             correct = "yes"
@@ -382,9 +413,11 @@ class Game:
 
         if incorrect == "yes":
             self.user_input.config(bg=incorrect_back)
+            self.math_quiz_amount_error_label_1.config(fg=incorrect_back)
             self.math_quiz_amount_error_label_1.config(text=answer_feedback)
         elif correct == "yes":
             self.user_input.config(bg=correct_back)
+            self.math_quiz_amount_error_label_1.config(fg=correct_back)
             self.math_quiz_amount_error_label_1.config(text=answer_feedback)
 
     def to_quit(self):
@@ -392,6 +425,9 @@ class Game:
 
     def to_help(self):
         get_help = Help(self)
+
+
+# Game Stats
 
 
 class Help:
@@ -441,135 +477,6 @@ class Help:
         partner.help_button.config(state=NORMAL)
         self.help_box.destroy()
 
-class GameStats:
-    def __init__(self, partner, round_stats, game_stats):
-
-        # GK Set up all game stats with starting and current balance
-        all_game_stats = [
-            "Starting Balance: ${}".format(game_stats[0]),
-            "Current Balance: ${}".format(game_stats[1])
-        ]
-
-        # print(game_history)
-
-        # disable help button
-        partner.stats_button.config(state=DISABLED)
-
-        heading = "Arial 12 bold"
-        content = "Arial 12"
-
-        # Sets up child window (ie: help box)
-        self.stats_box = Toplevel()
-
-        # If users press cross at top, closes help and 'releases' help button
-
-        self.stats_box.protocol('WM_DELETE_WINDOW', partial(self.close_stats,
-                                                            partner))
-
-        # Set up GUI Frame
-        self.stats_frame = Frame(self.stats_box)
-        self.stats_frame.grid()
-
-        # Set up Help Heading (row 0)
-        self.stats_heading_label = Label(self.stats_frame, text="Game Statistics",
-                                         font="arial 19 bold")
-        self.stats_heading_label.grid(row=0)
-
-        # To Export <instructions> (row 1)
-        self.export_instructions = Label(self.stats_frame,
-                                         text="Here are your Game Statistics."
-                                              "Please use the Export button to "
-                                              "access the results of each "
-                                              "round that you played", wrap=250,
-                                         font="arial 10 italic",
-                                         justify=LEFT, fg="green",
-                                         padx=10, pady=10)
-        self.export_instructions.grid(row=1)
-
-        # Starting Balance (row 2)
-        self.details_frame = Frame(self.stats_frame)
-        self.details_frame.grid(row=2)
-
-        # Starting balance (row 2.0)
-
-        self.start_balance_label = Label(self.details_frame,
-                                         text="Starting Balance:", font=heading,
-                                         anchor="e")
-        self.start_balance_label.grid(row=0, column=0, padx=0)
-
-        self.start_balance_value_label = Label(self.details_frame, font=content,
-                                               text="${}".format(game_stats[0]),
-                                               anchor="w")
-        self.start_balance_value_label.grid(row=0, column=1, padx=0)
-
-        # Current Balance (row 2.1)
-        self.current_balance_label = Label(self.details_frame,
-                                           text="Current Balance:", font=heading,
-                                           anchor="e")
-        self.current_balance_label.grid(row=1, column=0, padx=0)
-
-        self.current_balance_value_label = Label(self.details_frame, font=content,
-                                                 text="${}".format(game_stats[1]),
-                                                 anchor="e")
-        self.current_balance_value_label.grid(row=1, column=1, padx=0)
-
-        if game_stats[1] > game_stats[0]:
-            win_loss = "Amount Won:"
-            amount = game_stats[1] - game_stats[0]
-            win_loss_fg = "green"
-        else:
-            win_loss = "Amount Lost:"
-            amount = game_stats[0] - game_stats[1]
-            win_loss_fg = "#660000"
-
-        # Add amount won / lost to all_game_stats list for export
-        all_game_stats.append("{} {}".format(win_loss, amount))
-        all_game_stats.append("Rounds Played: {}".format(len(round_stats)))
-
-        # Amount won / lost (row 2.2)
-        self.wind_loss_label = Label(self.details_frame,
-                                     text=win_loss, font=heading,
-                                     anchor="e")
-        self.wind_loss_label.grid(row=2, column=0, padx=0)
-
-        self.wind_loss_value_label = Label(self.details_frame, font=content, text="${}".format(amount),
-                                           fg=win_loss_fg, anchor="w")
-        self.wind_loss_value_label.grid(row=2, column=1, padx=0)
-
-        # Rounds Played (row 2.3)
-        self.games_played_label = Label(self.details_frame,
-                                        text="Rounds Played:", font=heading,
-                                        anchor="e")
-        self.games_played_label.grid(row=4, column=0, padx=0)
-
-        self.games_played_value_label = Label(self.details_frame, font=content,
-                                              text=len(game_stats),
-                                              anchor="w")
-        self.games_played_value_label.grid(row=4, column=1, padx=0)
-
-        # Export / Dismiss Buttons Frame (row 3)
-        self.export_dismiss_frame = Frame(self.stats_frame)
-        self.export_dismiss_frame.grid(row=3, pady=10)
-
-        # Export Button
-        self.export_button = Button(self.export_dismiss_frame, text="Export",
-                                    font="Arial 12 bold",
-                                    command=lambda: self.export(partner, all_game_stats, round_stats))
-        self.export_button.grid(row=0, column=0)
-
-        # Dismiss button
-        self.dismiss_button = Button(self.export_dismiss_frame, text="Dismiss",
-                                     font="arial 12 bold",
-                                     command=partial(self.close_stats, partner))
-        self.dismiss_button.grid(row=0, column=1)
-
-    def close_stats(self, partner):
-        # put Help button back to normal...
-        partner.stats_button.config(state=NORMAL)
-        self.stats_box.destroy()
-
-    def export(self, partner, game_history, all_game_stats):
-        Export(self, game_history, all_game_stats)
 
 # main routine
 if __name__ == "__main__":

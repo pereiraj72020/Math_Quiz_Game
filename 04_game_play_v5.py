@@ -210,10 +210,12 @@ class Game:
         self.heading_label.grid(row=0)
 
         # Instructions Label
-        self.instructions_label = Label(self.game_frame, wrap=300, justify=CENTER,
+        self.instructions_label = Label(self.game_frame, wrap=300, justify=LEFT,
                                         text="Type in an appropriate integer in the box below "
-                                             "after the equals sign to answer the question."
-                                             "<Click> on Next to go to",
+                                             "after the equals sign to answer the question. "
+                                             "<Click> on Next to advance to the next question. "
+                                             "<Click> on Check to see if answer is correct or "
+                                             "incorrect. ",
                                         font="Arial 10", padx=10, pady=10)
         self.instructions_label.grid(row=1, pady=20)
 
