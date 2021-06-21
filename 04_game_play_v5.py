@@ -352,6 +352,7 @@ class Game:
 
         if questions == 0:
             self.next_button.config(state=DISABLED)
+            self.check_button.config(state=DISABLED)
             print("No more questions...")
 
         else:
@@ -387,12 +388,14 @@ class Game:
             if user_input == to_answer:
                 correct = "yes"
                 answer_feedback = "Correct!"
+                print("Correct!")
                 self.check_button.config(state=DISABLED)
                 self.next_button.config(state=NORMAL)
 
             elif user_input > to_answer or user_input < to_answer:
                 incorrect = "yes"
                 answer_feedback = "Incorrect, try again..."
+                print("Incorrect, try again...")
                 self.check_button.config(state=DISABLED)
                 self.next_button.config(state=NORMAL)
 
