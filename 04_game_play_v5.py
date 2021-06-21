@@ -210,8 +210,10 @@ class Game:
         self.heading_label.grid(row=0)
 
         # Instructions Label
-        self.instructions_label = Label(self.game_frame, wrap=300, justify=LEFT,
-                                        text="Push next to go to the next question. ",
+        self.instructions_label = Label(self.game_frame, wrap=300, justify=CENTER,
+                                        text="Type in an appropriate integer in the box below "
+                                             "after the equals sign to answer the question."
+                                             "<Click> on Next to go to",
                                         font="Arial 10", padx=10, pady=10)
         self.instructions_label.grid(row=1, pady=20)
 
