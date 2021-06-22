@@ -354,13 +354,14 @@ class Game:
         to_ask = "{} {} {} =".format(num, operation, random_number)
         self.show_questions.config(text=to_ask)
 
-        if questions == 0:
+        if questions == -1:
             self.next_button.config(state=DISABLED)
             self.check_button.config(state=DISABLED)
             print("No more questions...")
 
         else:
             self.next_button.config(state=DISABLED)
+
 
     def check_function(self):
 
@@ -419,7 +420,7 @@ class Game:
             self.user_input.config(bg=correct_back)
             self.math_quiz_amount_error_label_1.config(fg=correct_back)
             self.math_quiz_amount_error_label_1.config(text=answer_feedback)
-    
+
     def to_quit(self):
         root.destroy()
 

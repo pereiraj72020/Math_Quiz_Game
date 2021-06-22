@@ -356,7 +356,6 @@ class Game:
 
         if questions == 0:
             self.next_button.config(state=DISABLED)
-            self.check_button.config(state=DISABLED)
             print("No more questions...")
 
         else:
@@ -425,9 +424,6 @@ class Game:
 
     def to_help(self):
         get_help = Help(self)
-
-
-# Game Stats
 
 
 class Help:
