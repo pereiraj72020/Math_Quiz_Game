@@ -364,6 +364,7 @@ class Game:
             self.show_questions.config(text=to_ask_nomore)
             self.show_questions.config(fg="black")
             self.user_input.config(state=DISABLED)
+            print("No more questions...")
 
         else:
             self.next_button.config(state=DISABLED)
