@@ -392,6 +392,8 @@ class Game:
         correct = "no"
         incorrect = "no"
         answer_feedback = ""
+        stats_correct = []
+        stats_incorrect = []
 
         try:
             user_input = int(user_input)
@@ -402,6 +404,7 @@ class Game:
                 print("Correct!")
                 self.check_button.config(state=DISABLED)
                 self.next_button.config(state=NORMAL)
+                correct += 1
 
             elif user_input > to_answer or user_input < to_answer:
                 incorrect = "yes"
@@ -409,6 +412,7 @@ class Game:
                 print("Incorrect, try again...")
                 self.check_button.config(state=DISABLED)
                 self.next_button.config(state=NORMAL)
+                incorrect += 1
 
             else:
                 self.check_button.config(state=NORMAL)
@@ -416,16 +420,23 @@ class Game:
         except ValueError:
             correct = "yes"
             incorrect = "yes"
+            stats_correct += 0
+            stats_incorrect += 0
             answer_feedback = "Entry Error (blank / no decimals or text)"
 
         if incorrect == "yes":
             self.user_input.config(bg=incorrect_back)
             self.math_quiz_amount_error_label_1.config(fg=incorrect_back)
             self.math_quiz_amount_error_label_1.config(text=answer_feedback)
+
         elif correct == "yes":
             self.user_input.config(bg=correct_back)
             self.math_quiz_amount_error_label_1.config(fg=correct_back)
             self.math_quiz_amount_error_label_1.config(text=answer_feedback)
+
+
+
+
 
     def to_quit(self):
         root.destroy()
@@ -480,6 +491,48 @@ class Help:
         # Put help button back to normal...
         partner.help_button.config(state=NORMAL)
         self.help_box.destroy()
+
+
+class GameStats:
+    def __init__(self, partner, questions, stats_correct, stats_incorrect):
+        print(questions)
+        print(stats_correct)
+        print(stats_incorrect)
+
+        # **** initialise variables ****
+        self.num_questions = IntVar()
+        # amount of questions entered by user
+        self.num_questions.set(questions)
+
+        self.correct = IntVar()
+        # amount of questions that were correct
+        self.correct.set(stats_correct)
+
+        self.incorrect = IntVar()
+        # amount of questions that were incorrect
+        self.incorrect.set(stats_incorrect)
+
+        # GUI Setup
+        self.stats_box = Toplevel()
+
+        # If users press cross at top, game quits
+        self.stats_box.protocol('WM_DELETE_WINDOW', self.to_quit)
+
+        self.stats_frame = Frame(self.stats_box)
+        self.stats_frame.grid()
+
+        # Heading Row
+        self.heading_label = Label(self.stats_frame, text="Game Stats...",
+                                   font="Arial 24 bold", padx=10,
+                                   pady=10, width=20)
+        self.heading_label.grid(row=0)
+
+        self.instructions_label = Label(self.stats_frame, wrap=300, justify=LEFT,
+                                        text="", font="Arial 10", padx=10, pady=10)
+        self.instructions_label.grid(row=1, pady=20)
+
+
+
 
 
 # main routine
