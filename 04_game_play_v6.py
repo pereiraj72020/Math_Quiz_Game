@@ -250,7 +250,7 @@ class Game:
         # questions_total (row 2, column 0)
         self.questions_total = Label(self.questions_total_frame,
                                      text="", width=35, font="Arial 14 bold",
-                                     justify=CENTER)
+                                     justify=CENTER, relief=GROOVE)
         self.questions_total.grid(row=0, column=0, pady=0)
 
         # push_button_label (row 3, column 0)
@@ -354,10 +354,16 @@ class Game:
         to_ask = "{} {} {} =".format(num, operation, random_number)
         self.show_questions.config(text=to_ask)
 
-        if questions == 0:
+        if questions == -1:
             self.next_button.config(state=DISABLED)
             self.check_button.config(state=DISABLED)
-            print("No more questions...")
+            question_amount_finish = "No more Question/s Left..."
+            self.questions_total.config(text=question_amount_finish)
+            self.questions_total.config(fg="maroon")
+            to_ask_nomore = "..."
+            self.show_questions.config(text=to_ask_nomore)
+            self.show_questions.config(fg="black")
+            self.user_input.config(state=DISABLED)
 
         else:
             self.next_button.config(state=DISABLED)
@@ -402,8 +408,6 @@ class Game:
                 print("Incorrect, try again...")
                 self.check_button.config(state=DISABLED)
                 self.next_button.config(state=NORMAL)
-
-
 
             else:
                 self.check_button.config(state=NORMAL)
