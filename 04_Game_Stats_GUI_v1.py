@@ -190,20 +190,9 @@ class Game:
         # Set operation to amount entered by user at start of game
         self.num_operation.set(operation)
 
-        stats_correct = 0
-        stats_incorrect = 0
-
-        self.correct = IntVar()
-        # Set amount correct to 0
-        self.correct.set(stats_correct)
-
-        self.incorrect = IntVar()
-        # Set amount incorrect to 0
-        self.incorrect.set(stats_incorrect)
-
         # List for holding statistics
         self.question_stats_list = []
-        self.game_stats_list = [questions, stats_correct, stats_incorrect]
+        self.game_stats_list = [questions, questions]
 
         # GUI Setup
         self.game_box = Toplevel()
@@ -388,12 +377,6 @@ class Game:
         user_input = self.user_input.get()
         num = self.num_to_use.get()
         operation = self.num_operation.get()
-        stats_correct = self.correct.get()
-        stats_incorrect = self.incorrect.get()
-
-        # Reset stats_correct and stats_incorrect
-        self.correct.set(stats_correct)
-        self.incorrect.set(stats_incorrect)
 
         # retrieve random_number
         random_number = self.num_random.get()
@@ -409,6 +392,9 @@ class Game:
         correct = "no"
         incorrect = "no"
         answer_feedback = ""
+        stats_correct = 0
+        stats_incorrect = 0
+
 
         try:
             user_input = int(user_input)
@@ -449,7 +435,9 @@ class Game:
             self.math_quiz_amount_error_label_1.config(fg=correct_back)
             self.math_quiz_amount_error_label_1.config(text=answer_feedback)
 
-
+        correct_incorrect = ["Correct: {}".format(stats_correct), "Incorrect: {}".format(stats_incorrect)]
+        self.question_stats_list.append(correct_incorrect)
+        print(self.question_stats_list)
 
     def to_quit(self):
         root.destroy()
@@ -457,8 +445,8 @@ class Game:
     def to_help(self):
         get_help = Help(self)
 
-    def to_stats(self, questions, stats_correct, stats_incorrect):
-        GameStats(self, questions, stats_correct, stats_incorrect)
+    def to_stats(self, questions, game_stats_list):
+        GameStats(self, questions, game_stats_list)
 
 
 class Help:
@@ -510,23 +498,14 @@ class Help:
 
 
 class GameStats:
-    def __init__(self, partner, questions, stats_correct, stats_incorrect):
+    def __init__(self, partner, questions, game_stats_list):
         print("Questions: {}".format(questions))
-        print("Stats Correct: {}".format(stats_correct))
-        print("Stats Incorrect: {}".format(stats_incorrect))
+        print("Game Stats List: {}".format(game_stats_list))
 
         # **** initialise variables ****
         self.num_questions = IntVar()
         # amount of questions entered by user
         self.num_questions.set(questions)
-
-        self.correct = IntVar()
-        # amount of questions that were correct
-        self.correct.set(stats_correct)
-
-        self.incorrect = IntVar()
-        # amount of questions that were incorrect
-        self.incorrect.set(stats_incorrect)
 
         # GUI Setup
         self.stats_box = Toplevel()
