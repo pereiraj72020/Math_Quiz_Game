@@ -174,8 +174,9 @@ class Start:
 class Game:
     def __init__(self, partner, questions, num, operation):
         print("Questions: {}".format(questions))
-        print("Number being used in Game: {}".format(num))
+        print("Number being used in Play...: {}".format(num))
         print("Operation: {}".format(operation))
+        print("===== Play... =====")
 
         # **** initialise variables ****
         self.num_questions = IntVar()
@@ -191,8 +192,13 @@ class Game:
         self.num_operation.set(operation)
 
         # List for holding statistics
-        self.question_stats_list = []
-        self.game_stats_list = [questions, questions]
+        self.correct_incorrect_list = []
+        self.questions_stats = []
+
+        print("----------")
+        question_tostats = ["Questions Answered: {}".format(questions)]
+        self.questions_stats.append(question_tostats)
+        print(question_tostats)
 
         # GUI Setup
         self.game_box = Toplevel()
@@ -316,7 +322,7 @@ class Game:
         # Stats Button (row 7, no command yet)
         self.stats_button = Button(self.help_stats_frame, text="Game Stats...", bg="#003366",
                                    fg="white", font="Arial 14 bold",
-                                   command=lambda: self.to_stats(self.question_stats_list, self.game_stats_list))
+                                   command=lambda: self.to_stats(self.correct_incorrect_list, self.questions_stats))
         self.stats_button.grid(row=0, column=1, padx=5, pady=10)
 
         # Quit Button (row 8)
@@ -436,8 +442,8 @@ class Game:
             self.math_quiz_amount_error_label_1.config(text=answer_feedback)
 
         correct_incorrect = ["Correct: {}".format(stats_correct), "Incorrect: {}".format(stats_incorrect)]
-        self.question_stats_list.append(correct_incorrect)
-        print(self.question_stats_list)
+        self.correct_incorrect_list.append(correct_incorrect)
+        print(self.correct_incorrect_list)
 
     def to_quit(self):
         root.destroy()
@@ -445,8 +451,8 @@ class Game:
     def to_help(self):
         get_help = Help(self)
 
-    def to_stats(self, questions, game_stats_list):
-        GameStats(self, questions, game_stats_list)
+    def to_stats(self, game_stats_list, question_stats):
+        GameStats(self, game_stats_list, question_stats)
 
 
 class Help:
@@ -498,14 +504,16 @@ class Help:
 
 
 class GameStats:
-    def __init__(self, partner, questions, game_stats_list):
-        print("Questions: {}".format(questions))
+    def __init__(self, partner, game_stats_list, question_stats):
+        print("----------")
+        print("===== Game Statistics =====")
+        print("Questions: {}".format(question_stats))
         print("Game Stats List: {}".format(game_stats_list))
 
         # **** initialise variables ****
         self.num_questions = IntVar()
         # amount of questions entered by user
-        self.num_questions.set(questions)
+        self.num_questions.set(question_stats)
 
         # GUI Setup
         self.stats_box = Toplevel()
@@ -533,7 +541,15 @@ class GameStats:
                                     font="Arial 12 bold")
         self.export_button.grid(row=0, column=0)
 
+        self.dismiss_button = Button(self.export_dismiss_frame, text="Dismiss",
+                                     font="Arial 12 bold", command=partial(self.close_stats, partner))
+        self.dismiss_button.grid(row=0, column=1)
 
+
+    def close_stats(self, partner):
+        # put Help button back to normal...
+        partner.stats_button.config(state=NORMAL)
+        self.stats_box.destroy()
 
     def to_quit(self):
         root.destroy()
