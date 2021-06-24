@@ -526,6 +526,15 @@ class GameStats:
                                         text="", font="Arial 10", padx=10, pady=10)
         self.instructions_label.grid(row=1, pady=20)
 
+        self.export_dismiss_frame = Frame(self.stats_box)
+        self.export_dismiss_frame.grid(row=2)
+
+        self.export_button = Button(self.export_dismiss_frame, text="Export",
+                                    font="Arial 12 bold")
+        self.export_button.grid(row=0, column=0)
+
+
+
     def to_quit(self):
         root.destroy()
 
