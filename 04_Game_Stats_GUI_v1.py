@@ -173,9 +173,9 @@ class Start:
 
 class Game:
     def __init__(self, partner, questions, num, operation):
-        print(questions)
-        print(num)
-        print(operation)
+        print("Questions: {}".format(questions))
+        print("Number being used in Game: {}".format(num))
+        print("Operation: {}".format(operation))
 
         # **** initialise variables ****
         self.num_questions = IntVar()
@@ -190,9 +190,20 @@ class Game:
         # Set operation to amount entered by user at start of game
         self.num_operation.set(operation)
 
+        stats_correct = 0
+        stats_incorrect = 0
+
+        self.correct = IntVar()
+        # Set amount correct to 0
+        self.correct.set(stats_correct)
+
+        self.incorrect = IntVar()
+        # Set amount incorrect to 0
+        self.incorrect.set(stats_incorrect)
+
         # List for holding statistics
         self.question_stats_list = []
-        self.game_stats_list = [questions, questions]
+        self.game_stats_list = [questions, stats_correct, stats_incorrect]
 
         # GUI Setup
         self.game_box = Toplevel()
@@ -249,7 +260,7 @@ class Game:
 
         # questions_total (row 2, column 0)
         self.questions_total = Label(self.questions_total_frame,
-                                     text="", width=35, font="Arial 14 bold",
+                                     text="", width=20, font="Arial 14 bold",
                                      justify=CENTER, relief=GROOVE)
         self.questions_total.grid(row=0, column=0, pady=0)
 
@@ -315,7 +326,8 @@ class Game:
 
         # Stats Button (row 7, no command yet)
         self.stats_button = Button(self.help_stats_frame, text="Game Stats...", bg="#003366",
-                                   fg="white", font="Arial 14 bold")
+                                   fg="white", font="Arial 14 bold",
+                                   command=lambda: self.to_stats(self.question_stats_list, self.game_stats_list))
         self.stats_button.grid(row=0, column=1, padx=5, pady=10)
 
         # Quit Button (row 8)
@@ -364,6 +376,7 @@ class Game:
             self.show_questions.config(text=to_ask_nomore)
             self.show_questions.config(fg="black")
             self.user_input.config(state=DISABLED)
+            print("----------")
             print("No more questions...")
 
         else:
@@ -371,12 +384,16 @@ class Game:
 
     def check_function(self):
 
-        print("you are checking")
-
         # **** variables included ****
         user_input = self.user_input.get()
         num = self.num_to_use.get()
         operation = self.num_operation.get()
+        stats_correct = self.correct.get()
+        stats_incorrect = self.incorrect.get()
+
+        # Reset stats_correct and stats_incorrect
+        self.correct.set(stats_correct)
+        self.incorrect.set(stats_incorrect)
 
         # retrieve random_number
         random_number = self.num_random.get()
@@ -399,16 +416,20 @@ class Game:
             if user_input == to_answer:
                 correct = "yes"
                 answer_feedback = "Correct!"
+                print("----------")
                 print("Correct!")
                 self.check_button.config(state=DISABLED)
                 self.next_button.config(state=NORMAL)
+                stats_correct += 1
 
             elif user_input > to_answer or user_input < to_answer:
                 incorrect = "yes"
                 answer_feedback = "Incorrect, try again..."
+                print("----------")
                 print("Incorrect, try again...")
                 self.check_button.config(state=DISABLED)
                 self.next_button.config(state=NORMAL)
+                stats_incorrect += 1
 
             else:
                 self.check_button.config(state=NORMAL)
@@ -422,16 +443,22 @@ class Game:
             self.user_input.config(bg=incorrect_back)
             self.math_quiz_amount_error_label_1.config(fg=incorrect_back)
             self.math_quiz_amount_error_label_1.config(text=answer_feedback)
+
         elif correct == "yes":
             self.user_input.config(bg=correct_back)
             self.math_quiz_amount_error_label_1.config(fg=correct_back)
             self.math_quiz_amount_error_label_1.config(text=answer_feedback)
+
+
 
     def to_quit(self):
         root.destroy()
 
     def to_help(self):
         get_help = Help(self)
+
+    def to_stats(self, questions, stats_correct, stats_incorrect):
+        GameStats(self, questions, stats_correct, stats_incorrect)
 
 
 class Help:
@@ -480,6 +507,48 @@ class Help:
         # Put help button back to normal...
         partner.help_button.config(state=NORMAL)
         self.help_box.destroy()
+
+
+class GameStats:
+    def __init__(self, partner, questions, stats_correct, stats_incorrect):
+        print("Questions: {}".format(questions))
+        print("Stats Correct: {}".format(stats_correct))
+        print("Stats Incorrect: {}".format(stats_incorrect))
+
+        # **** initialise variables ****
+        self.num_questions = IntVar()
+        # amount of questions entered by user
+        self.num_questions.set(questions)
+
+        self.correct = IntVar()
+        # amount of questions that were correct
+        self.correct.set(stats_correct)
+
+        self.incorrect = IntVar()
+        # amount of questions that were incorrect
+        self.incorrect.set(stats_incorrect)
+
+        # GUI Setup
+        self.stats_box = Toplevel()
+
+        # If users press cross at top, game quits
+        self.stats_box.protocol('WM_DELETE_WINDOW', self.to_quit)
+
+        self.stats_frame = Frame(self.stats_box)
+        self.stats_frame.grid()
+
+        # Heading Row
+        self.heading_label = Label(self.stats_frame, text="Game Stats...",
+                                   font="Arial 24 bold", padx=10,
+                                   pady=10, width=20)
+        self.heading_label.grid(row=0)
+
+        self.instructions_label = Label(self.stats_frame, wrap=300, justify=LEFT,
+                                        text="", font="Arial 10", padx=10, pady=10)
+        self.instructions_label.grid(row=1, pady=20)
+
+    def to_quit(self):
+        root.destroy()
 
 
 # main routine

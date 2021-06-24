@@ -315,7 +315,8 @@ class Game:
 
         # Stats Button (row 7, no command yet)
         self.stats_button = Button(self.help_stats_frame, text="Game Stats...", bg="#003366",
-                                   fg="white", font="Arial 14 bold")
+                                   fg="white", font="Arial 14 bold",
+                                   command=lambda: self.to_stats)
         self.stats_button.grid(row=0, column=1, padx=5, pady=10)
 
         # Quit Button (row 8)
@@ -392,8 +393,8 @@ class Game:
         correct = "no"
         incorrect = "no"
         answer_feedback = ""
-        stats_correct = []
-        stats_incorrect = []
+        stats_correct = 0
+        stats_incorrect = 0
 
         try:
             user_input = int(user_input)
@@ -404,7 +405,7 @@ class Game:
                 print("Correct!")
                 self.check_button.config(state=DISABLED)
                 self.next_button.config(state=NORMAL)
-                correct += 1
+                stats_correct += 1
 
             elif user_input > to_answer or user_input < to_answer:
                 incorrect = "yes"
@@ -412,7 +413,7 @@ class Game:
                 print("Incorrect, try again...")
                 self.check_button.config(state=DISABLED)
                 self.next_button.config(state=NORMAL)
-                incorrect += 1
+                stats_incorrect += 1
 
             else:
                 self.check_button.config(state=NORMAL)
@@ -435,15 +436,14 @@ class Game:
             self.math_quiz_amount_error_label_1.config(text=answer_feedback)
 
 
-
-
-
     def to_quit(self):
         root.destroy()
 
     def to_help(self):
         get_help = Help(self)
 
+    def to_stats(self):
+        GameStats(self, questions, stats_correct, stats_incorrect)
 
 class Help:
     def __init__(self, partner):
