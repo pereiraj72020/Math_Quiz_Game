@@ -193,10 +193,12 @@ class Game:
 
         # List for holding statistics
         self.correct_incorrect_list = []
+        self.correct_list = []
+        self.incorrect_list = []
         self.questions_stats = []
 
         print("----------")
-        question_tostats = ["Questions Answered: {}".format(questions)]
+        question_tostats = "Questions Answered: {}".format(questions)
         self.questions_stats.append(question_tostats)
         print(question_tostats)
 
@@ -322,7 +324,8 @@ class Game:
         # Stats Button (row 7, no command yet)
         self.stats_button = Button(self.help_stats_frame, text="Game Stats...", bg="#003366",
                                    fg="white", font="Arial 14 bold",
-                                   command=lambda: self.to_stats(self.correct_incorrect_list, self.questions_stats))
+                                   command=lambda: self.to_stats(self.questions_stats,
+                                                                 self.correct_list, self.incorrect_list))
         self.stats_button.grid(row=0, column=1, padx=5, pady=10)
 
         # Quit Button (row 8)
@@ -441,9 +444,13 @@ class Game:
             self.math_quiz_amount_error_label_1.config(fg=correct_back)
             self.math_quiz_amount_error_label_1.config(text=answer_feedback)
 
-        correct_incorrect = ["Correct: {}".format(stats_correct), "Incorrect: {}".format(stats_incorrect)]
-        self.correct_incorrect_list.append(correct_incorrect)
-        print(self.correct_incorrect_list)
+        incorrect_tostats = "Incorrect: {}".format(stats_incorrect)
+        self.incorrect_list.append(incorrect_tostats)
+        print(self.incorrect_list)
+
+        correct_tostats = "Correct: {}".format(stats_correct)
+        self.correct_list.append(correct_tostats)
+        print(self.correct_list)
 
     def to_quit(self):
         root.destroy()
@@ -451,8 +458,8 @@ class Game:
     def to_help(self):
         get_help = Help(self)
 
-    def to_stats(self, game_stats_list, question_stats):
-        GameStats(self, game_stats_list, question_stats)
+    def to_stats(self, question_stats, correct_tostats, incorrect_tostats):
+        GameStats(self, question_stats, correct_tostats, incorrect_tostats)
 
 
 class Help:
@@ -504,11 +511,12 @@ class Help:
 
 
 class GameStats:
-    def __init__(self, partner, game_stats_list, question_stats):
+    def __init__(self, partner, question_stats, correct_tostats, incorrect_tostats):
         print("----------")
         print("===== Game Statistics =====")
         print("Questions: {}".format(question_stats))
-        print("Game Stats List: {}".format(game_stats_list))
+        print("Correct: {}".format(correct_tostats))
+        print("Incorrect: {}".format(incorrect_tostats))
 
         # **** initialise variables ****
         self.num_questions = IntVar()
@@ -525,17 +533,42 @@ class GameStats:
         self.stats_frame.grid()
 
         # Heading Row
-        self.heading_label = Label(self.stats_frame, text="Game Stats...",
+        self.heading_label = Label(self.stats_frame, text="Game Statistics",
                                    font="Arial 24 bold", padx=10,
                                    pady=10, width=20)
         self.heading_label.grid(row=0)
 
         self.instructions_label = Label(self.stats_frame, wrap=300, justify=LEFT,
-                                        text="", font="Arial 10", padx=10, pady=10)
+                                        text="Here are your Game Statistics. Please use "
+                                             "the Export button to access the results "
+                                             "each question that have been answered. ",
+                                             font="Arial 10", padx=10, pady=10, fg="green")
         self.instructions_label.grid(row=1, pady=20)
 
         self.export_dismiss_frame = Frame(self.stats_box)
-        self.export_dismiss_frame.grid(row=2)
+        self.export_dismiss_frame.grid(row=5)
+
+        self.questions_answered_frame = Frame(self.stats_box)
+        self.questions_answered_frame.grid(row=2)
+
+        self.questions_correct_frame = Frame(self.stats_box)
+        self.questions_correct_frame.grid(row=3)
+
+        self.questions_incorrect_frame = Frame(self.stats_box)
+        self.questions_incorrect_frame.grid(row=4)
+
+        self.questions_answered = Label(self.questions_answered_frame,
+                                        text="Questions Answered: {}".format(question_stats),
+                                        font="Arial 12 bold")
+        self.questions_answered.grid(row=0, column=0)
+
+        self.questions_correct = Label(self.questions_correct_frame,
+                                       text="Questions Correct: {}".format(correct_tostats), font="Arial 12 bold")
+        self.questions_correct.grid(row=0, column=0)
+
+        self.questions_incorrect = Label(self.questions_incorrect_frame,
+                                         text="Questions Incorrect: {}".format(incorrect_tostats), font="Arial 12 bold")
+        self.questions_incorrect.grid(row=0, column=0)
 
         self.export_button = Button(self.export_dismiss_frame, text="Export",
                                     font="Arial 12 bold")
