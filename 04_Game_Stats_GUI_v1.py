@@ -282,7 +282,7 @@ class Game:
 
         # user_input_show_questions (row 4, column 1)
         self.user_input = Entry(self.user_input_frame, font="Arial 20 bold",
-                                fg="black", justify=CENTER, width=10)
+                                fg="black", justify=CENTER, width=10, state=DISABLED)
         self.user_input.grid(row=0, column=0, pady=10, ipady=10)
 
         # Amount error label (row 5, column 0)
@@ -337,6 +337,7 @@ class Game:
     def next_question_function(self):
 
         self.check_button.config(state=NORMAL)
+        self.user_input.config(state=NORMAL)
 
         # **** variables included ****
         num = self.num_to_use.get()
