@@ -405,7 +405,6 @@ class Game:
         stats_correct = 0
         stats_incorrect = 0
 
-
         try:
             user_input = int(user_input)
 
@@ -429,6 +428,8 @@ class Game:
 
             else:
                 self.check_button.config(state=NORMAL)
+
+
 
         except ValueError:
             correct = "yes"
@@ -459,9 +460,8 @@ class Game:
     def to_help(self):
         get_help = Help(self)
 
-    def to_stats(self, question_stats, correct_tostats, incorrect_tostats):
-        GameStats(self, question_stats, correct_tostats, incorrect_tostats)
-
+    def to_stats(self, question_stats, incorrect_tostats, correct_tostats):
+        GameStats(self, question_stats, incorrect_tostats, correct_tostats)
 
 class Help:
     def __init__(self, partner):
@@ -512,7 +512,7 @@ class Help:
 
 
 class GameStats:
-    def __init__(self, partner, question_stats, correct_tostats, incorrect_tostats):
+    def __init__(self, partner, question_stats, incorrect_tostats, correct_tostats):
         print("----------")
         print("===== Game Statistics =====")
         print("Questions: {}".format(question_stats))
@@ -543,11 +543,8 @@ class GameStats:
                                         text="Here are your Game Statistics. Please use "
                                              "the Export button to access the results "
                                              "each question that have been answered. ",
-                                             font="Arial 10", padx=10, pady=10, fg="green")
+                                        font="Arial 10", padx=10, pady=10, fg="green")
         self.instructions_label.grid(row=1, pady=20)
-
-        self.export_dismiss_frame = Frame(self.stats_box)
-        self.export_dismiss_frame.grid(row=5)
 
         self.questions_answered_frame = Frame(self.stats_box)
         self.questions_answered_frame.grid(row=2)
@@ -558,8 +555,11 @@ class GameStats:
         self.questions_incorrect_frame = Frame(self.stats_box)
         self.questions_incorrect_frame.grid(row=4)
 
+        self.export_dismiss_frame = Frame(self.stats_box)
+        self.export_dismiss_frame.grid(row=5)
+
         self.questions_answered = Label(self.questions_answered_frame,
-                                        text="Questions Answered: {}".format(question_stats),
+                                        text=question_stats[0],
                                         font="Arial 12 bold")
         self.questions_answered.grid(row=0, column=0)
 
@@ -578,7 +578,6 @@ class GameStats:
         self.dismiss_button = Button(self.export_dismiss_frame, text="Dismiss",
                                      font="Arial 12 bold", command=partial(self.close_stats, partner))
         self.dismiss_button.grid(row=0, column=1)
-
 
     def close_stats(self, partner):
         # put Help button back to normal...

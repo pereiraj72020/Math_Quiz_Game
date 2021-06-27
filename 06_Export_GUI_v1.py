@@ -706,7 +706,7 @@ class Export:
             f.write("Game Statistics\n\n")
 
             # Game stats
-            for round in game_stats:
+            for round in question_stats:
                 f.write(round + "\n")
 
             # Heading for Rounds
@@ -715,7 +715,7 @@ class Export:
             print("Question Statistics", question_stats, correct_tostats, incorrect_tostats)
 
             # add new line at end of each item
-            for item in game_history:
+            for item in question_stats:
                 f.write(item + "\n")
 
             # close file
