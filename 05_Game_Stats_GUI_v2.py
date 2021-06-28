@@ -178,8 +178,8 @@ class Game:
         print("Operation: {}".format(operation))
         print("===== Play... =====")
 
-        correct_togame = 0
-        incorrect_togame = 0
+        correct_fromgame = 0
+        incorrect_fromgame = 0
 
         # **** initialise variables ****
         self.num_questions = IntVar()
@@ -196,20 +196,31 @@ class Game:
 
         self.correct = IntVar()
         # Set amount correct
-        self.correct.set(correct_togame)
+        self.correct.set(correct_fromgame)
 
         self.incorrect = IntVar()
         # Set amount incorrect
-        self.incorrect.set(incorrect_togame)
+        self.incorrect.set(incorrect_fromgame)
 
         # List for holding statistics
-        self.correct_incorrect_stats = []
         self.questions_stats = []
+        self.correct_stats = []
+        self.incorrect_stats = []
 
         print("----------")
         question_tostats = "Questions Answered: {}".format(questions)
         self.questions_stats.append(question_tostats)
         print(question_tostats)
+
+        print("----------")
+        correct_tostats = "Correct: {}".format(correct_fromgame)
+        self.correct_stats.append(correct_tostats)
+        print(correct_tostats)
+
+        print("----------")
+        incorrect_tostats = "Incorrect: {}".format(incorrect_fromgame)
+        self.incorrect_stats.append(incorrect_tostats)
+        print(incorrect_tostats)
 
         # GUI Setup
         self.game_box = Toplevel()
@@ -334,7 +345,7 @@ class Game:
         self.stats_button = Button(self.help_stats_frame, text="Game Stats...", bg="#003366",
                                    fg="white", font="Arial 14 bold",
                                    command=lambda: self.to_stats(self.questions_stats,
-                                                                 self.correct_incorrect_stats))
+                                                                 self.correct_stats, self.incorrect_stats))
         self.stats_button.grid(row=0, column=1, padx=5, pady=10)
 
         # Quit Button (row 8)
@@ -396,8 +407,8 @@ class Game:
         user_input = self.user_input.get()
         num = self.num_to_use.get()
         operation = self.num_operation.get()
-        stats_correct = self.correct.get()
-        stats_incorrect = self.incorrect.get()
+        amount_correct = self.correct.get()
+        amount_incorrect = self.incorrect.get()
 
         # retrieve random_number
         random_number = self.num_random.get()
@@ -405,6 +416,8 @@ class Game:
         # correct answer structure
         to_answer = eval("{} {} {}".format(num, operation, random_number))
         self.user_input.config(text=to_answer)
+
+
 
         # Set error background colours (and assume that there are no
         # errors at the start...
@@ -424,7 +437,7 @@ class Game:
                 print("Correct!")
                 self.check_button.config(state=DISABLED)
                 self.next_button.config(state=NORMAL)
-                stats_correct += 1
+                amount_correct += 1
 
             elif user_input > to_answer or user_input < to_answer:
                 incorrect = "yes"
@@ -433,12 +446,13 @@ class Game:
                 print("Incorrect, try again...")
                 self.check_button.config(state=DISABLED)
                 self.next_button.config(state=NORMAL)
-                stats_incorrect += 1
+                amount_incorrect += 1
 
             else:
                 self.check_button.config(state=NORMAL)
-
-
+                # Reset amount correct and incorrect
+                self.correct.set(amount_correct)
+                self.incorrect.set(amount_incorrect)
 
         except ValueError:
             correct = "yes"
@@ -455,18 +469,14 @@ class Game:
             self.math_quiz_amount_error_label_1.config(fg=correct_back)
             self.math_quiz_amount_error_label_1.config(text=answer_feedback)
 
-        all_game_stats = [stats_correct, stats_incorrect]
-        self.correct_incorrect_stats.append(all_game_stats)
-        print(self.correct_incorrect_stats)
-
     def to_quit(self):
         root.destroy()
 
     def to_help(self):
         get_help = Help(self)
 
-    def to_stats(self, question_stats, all_game_stats):
-        GameStats(self, question_stats, all_game_stats)
+    def to_stats(self, question_stats, correct_stats, incorrect_stats):
+        GameStats(self, question_stats, correct_stats, incorrect_stats)
 
 class Help:
     def __init__(self, partner):
@@ -517,12 +527,12 @@ class Help:
 
 
 class GameStats:
-    def __init__(self, partner, question_stats, all_game_stats):
+    def __init__(self, partner, question_stats, correct_stats, incorrect_stats):
         print("----------")
         print("===== Game Statistics =====")
-        print("Questions: {}".format(question_stats))
-        print("Correct: {}".format(all_game_stats[0]))
-        print("Incorrect: {}".format(all_game_stats[1]))
+        print(question_stats)
+        print(correct_stats)
+        print(incorrect_stats)
 
         # **** initialise variables ****
         self.num_questions = IntVar()
