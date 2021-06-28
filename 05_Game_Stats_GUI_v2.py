@@ -206,6 +206,11 @@ class Game:
         self.correct_incorrect_stats = []
         self.questions_stats = []
 
+        print("----------")
+        question_tostats = "Questions Answered: {}".format(questions)
+        self.questions_stats.append(question_tostats)
+        print(question_tostats)
+
         # GUI Setup
         self.game_box = Toplevel()
 
@@ -325,11 +330,11 @@ class Game:
                                   command=self.to_help)
         self.help_button.grid(row=0, column=0)
 
-        # Stats Button (row 7, no command yet)
+        # Stats Button (row 7)
         self.stats_button = Button(self.help_stats_frame, text="Game Stats...", bg="#003366",
                                    fg="white", font="Arial 14 bold",
                                    command=lambda: self.to_stats(self.questions_stats,
-                                                                 self.questions_stats))
+                                                                 self.correct_incorrect_stats))
         self.stats_button.grid(row=0, column=1, padx=5, pady=10)
 
         # Quit Button (row 8)
@@ -433,9 +438,7 @@ class Game:
             else:
                 self.check_button.config(state=NORMAL)
 
-                all_game_stats = [stats_correct, stats_incorrect]
-                self.correct_incorrect_stats.append(all_game_stats)
-                print(all_game_stats)
+
 
         except ValueError:
             correct = "yes"
@@ -451,6 +454,10 @@ class Game:
             self.user_input.config(bg=correct_back)
             self.math_quiz_amount_error_label_1.config(fg=correct_back)
             self.math_quiz_amount_error_label_1.config(text=answer_feedback)
+
+        all_game_stats = [stats_correct, stats_incorrect]
+        self.correct_incorrect_stats.append(all_game_stats)
+        print(self.correct_incorrect_stats)
 
     def to_quit(self):
         root.destroy()
@@ -562,11 +569,11 @@ class GameStats:
         self.questions_answered.grid(row=0, column=0)
 
         self.questions_correct = Label(self.questions_correct_frame,
-                                       text=all_game_stats[0], font="Arial 12 bold")
+                                       text="", font="Arial 12 bold")
         self.questions_correct.grid(row=0, column=0)
 
         self.questions_incorrect = Label(self.questions_incorrect_frame,
-                                         text=all_game_stats[1], font="Arial 12 bold")
+                                         text="", font="Arial 12 bold")
         self.questions_incorrect.grid(row=0, column=0)
 
         self.export_button = Button(self.export_dismiss_frame, text="Export",

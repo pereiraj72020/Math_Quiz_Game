@@ -429,8 +429,6 @@ class Game:
             else:
                 self.check_button.config(state=NORMAL)
 
-
-
         except ValueError:
             correct = "yes"
             incorrect = "yes"
