@@ -362,7 +362,7 @@ class Game:
         # **** variables included ****
         num = self.num_to_use.get()
         operation = self.num_operation.get()
-        questions = self.num_questions.get()
+        questions_used = self.num_questions.get()
 
         # random number
         random_number = random.randint(1, 12)
@@ -372,20 +372,20 @@ class Game:
         self.num_random.set(random_number)
 
         # question down by 1
-        questions -= 1
+        questions_used -= 1
 
         # Reset questions
-        self.num_questions.set(questions)
+        self.num_questions.set(questions_used)
 
         # amount of questions structure
-        question_amount = "{} Question/s Left...".format(questions)
+        question_amount = "{} Question/s Left...".format(questions_used)
         self.questions_total.config(text=question_amount)
 
         # question structure
         to_ask = "{} {} {} =".format(num, operation, random_number)
         self.show_questions.config(text=to_ask)
 
-        if questions == -1:
+        if questions_used == -1:
             self.next_button.config(state=DISABLED)
             self.check_button.config(state=DISABLED)
             question_amount_finish = "No more Question/s Left..."
@@ -416,8 +416,6 @@ class Game:
         # correct answer structure
         to_answer = eval("{} {} {}".format(num, operation, random_number))
         self.user_input.config(text=to_answer)
-
-
 
         # Set error background colours (and assume that there are no
         # errors at the start...
@@ -453,7 +451,6 @@ class Game:
                 # Reset amount correct and incorrect
                 self.correct.set(amount_correct)
                 self.incorrect.set(amount_incorrect)
-
         except ValueError:
             correct = "yes"
             incorrect = "yes"
