@@ -175,13 +175,6 @@ class Start:
 class Game:
     def __init__(self, partner, questions, num, operation):
 
-        # shows questions and number that are going to be in use
-        # in class Game.
-        print("Questions: {}".format(questions))
-        print("Number being used in Play...: {}".format(num))
-        print("Operation: {}".format(operation))
-        print("===== Play... =====")
-
         # Sets correct and incorrect to zero
         correct_before = 0
         incorrect_before = 0
@@ -393,8 +386,6 @@ class Game:
             self.show_questions.config(text=to_ask_nomore)
             self.show_questions.config(fg="black")
             self.user_input.config(state=DISABLED)
-            print("----------")
-            print("No more questions...")
 
         else:
             self.next_button.config(state=DISABLED)
@@ -431,8 +422,7 @@ class Game:
             if user_input == to_answer:
                 correct = "yes"
                 answer_feedback = "Correct!"
-                print("----------")
-                print("Correct!")
+
                 self.check_button.config(state=DISABLED)
                 self.next_button.config(state=NORMAL)
                 correct_now += 1
@@ -442,8 +432,7 @@ class Game:
             else:
                 incorrect = "yes"
                 answer_feedback = "Incorrect"
-                print("----------")
-                print("Incorrect, try again...")
+
                 self.check_button.config(state=DISABLED)
                 self.next_button.config(state=NORMAL)
                 incorrect_now += 1
@@ -455,7 +444,6 @@ class Game:
             questions_summary = "{} = {} | {}".format(asked, user_input, answer_feedback)
 
             self.questions_quiz_stats.append(questions_summary)
-            print("Questions Quiz Stats: {}".format(self.questions_quiz_stats))
 
         # if the entry is blank, has decimals or text the program will complain...
         except ValueError:
@@ -544,6 +532,10 @@ class GameStats:
         amount_questions = amount_correct + amount_incorrect
 
         percentage = amount_correct / amount_questions * 100
+
+        self.percentage = IntVar()
+        # Set amount incorrect
+        self.percentage.set(percentage)
 
         partner.stats_button.config(state=DISABLED)
 
