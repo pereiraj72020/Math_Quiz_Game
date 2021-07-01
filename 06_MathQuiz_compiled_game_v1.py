@@ -544,13 +544,6 @@ class GameStats:
 
         percentage = amount_correct / amount_questions * 100
 
-        print("----------")
-        print("===== Question Statistics =====")
-        print("Correct: {}".format(amount_correct))
-        print("Incorrect: {}".format(amount_incorrect))
-        print("Correct Percentage: {}".format(percentage))
-        print("Questions Answered: {}".format(amount_questions))
-
         partner.stats_button.config(state=DISABLED)
 
         # **** initialise variables ****
