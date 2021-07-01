@@ -562,7 +562,8 @@ class GameStats:
         self.stats_box = Toplevel()
 
         # If users press cross at top, game quits
-        self.stats_box.protocol('WM_DELETE_WINDOW', self.to_quit)
+        self.stats_box.protocol('WM_DELETE_WINDOW', partial(self.close_stats,
+                                                            partner))
 
         self.stats_frame = Frame(self.stats_box)
         self.stats_frame.grid()
@@ -669,10 +670,6 @@ class GameStats:
 
     def export(self, partner, questions, correct_list, incorrect_list):
         Export(self, questions, correct_list, incorrect_list)
-
-        # destroys program
-    def to_quit(self):
-        root.destroy()
 
 
 class Export:
