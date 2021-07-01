@@ -388,10 +388,13 @@ class Game:
         if questions_used == -1:
             self.next_button.config(state=DISABLED)
             self.check_button.config(state=DISABLED)
+
             question_amount_finish = "No more Question/s Left..."
             self.questions_total.config(text=question_amount_finish)
             self.questions_total.config(fg="maroon")
+
             to_ask_nomore = "..."
+
             self.show_questions.config(text=to_ask_nomore)
             self.show_questions.config(fg="black")
             self.user_input.config(state=DISABLED)
@@ -407,6 +410,7 @@ class Game:
         user_input = self.user_input.get()
         num = self.num_to_use.get()
         operation = self.num_operation.get()
+
         amount_correct = self.correct.get()
         amount_incorrect = self.incorrect.get()
 
@@ -448,9 +452,7 @@ class Game:
 
             else:
                 self.check_button.config(state=NORMAL)
-                # Reset amount correct and incorrect
-                self.correct.set(amount_correct)
-                self.incorrect.set(amount_incorrect)
+
         except ValueError:
             correct = "yes"
             incorrect = "yes"
@@ -473,6 +475,9 @@ class Game:
         get_help = Help(self)
 
     def to_stats(self, question_stats, correct_stats, incorrect_stats):
+
+
+
         GameStats(self, question_stats, correct_stats, incorrect_stats)
 
 class Help:
@@ -576,11 +581,11 @@ class GameStats:
         self.questions_answered.grid(row=0, column=0)
 
         self.questions_correct = Label(self.questions_correct_frame,
-                                       text="", font="Arial 12 bold")
+                                       text=correct_stats[0], font="Arial 12 bold")
         self.questions_correct.grid(row=0, column=0)
 
         self.questions_incorrect = Label(self.questions_incorrect_frame,
-                                         text="", font="Arial 12 bold")
+                                         text=incorrect_stats[0], font="Arial 12 bold")
         self.questions_incorrect.grid(row=0, column=0)
 
         self.export_button = Button(self.export_dismiss_frame, text="Export",

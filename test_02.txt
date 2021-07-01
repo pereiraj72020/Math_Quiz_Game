@@ -1,0 +1,10 @@
+Game Statistics
+
+# Correct: 0
+# Incorrect: 2
+# Questions Answered: ['2 + 8 = 2 | Incorrect', '2 + 9 = 2 | Incorrect']
+
+Question Details
+
+2 + 8 = 2 | Incorrect
+2 + 9 = 2 | Incorrect

@@ -337,7 +337,7 @@ class Game:
         # Stats Button (row 7)
         self.stats_button = Button(self.help_stats_frame, text="Game Stats...", bg="#003366",
                                    fg="white", font="Arial 14 bold",
-                                   command=lambda: self.to_stats(self.questions_quiz_stats,
+                                   command=lambda: self.to_stats(questions,
                                                                  self.correct_list, self.incorrect_list))
         self.stats_button.grid(row=0, column=1, padx=5, pady=10)
 
@@ -414,7 +414,6 @@ class Game:
 
         # correct answer structure
         to_answer = eval("{} {} {}".format(num, operation, random_number))
-        asked = "{} {} {}".format(num, operation, random_number)
         self.user_input.config(text=to_answer)
 
         # Set error background colours (and assume that there are no
@@ -424,6 +423,8 @@ class Game:
         correct = "no"
         incorrect = "no"
         answer_feedback = ""
+
+
 
         try:
             user_input = int(user_input)
@@ -439,9 +440,9 @@ class Game:
                 self.correct.set(correct_now)
                 self.correct_list[1] = correct_now
 
-            else:
+            elif user_input > to_answer or user_input < to_answer:
                 incorrect = "yes"
-                answer_feedback = "Incorrect"
+                answer_feedback = "Incorrect, try again..."
                 print("----------")
                 print("Incorrect, try again...")
                 self.check_button.config(state=DISABLED)
@@ -450,12 +451,16 @@ class Game:
                 self.incorrect.set(incorrect_now)
                 self.incorrect_list[1] = incorrect_now
 
-            # self.check_button.config(state=NORMAL)
-            # # Add question results to statistics list
-            questions_summary = "{} = {} | {}".format(asked, user_input, answer_feedback)
+            else:
+                self.check_button.config(state=NORMAL)
+                # Add question results to statistics list
+                questions_summary = "Correct: {} " \
+                                    "Incorrect: {} " \
+                                    "Questions Answered: {} " \
+                                    .format(correct_now, incorrect_now,
+                                    questions_used)
+                self.questions_quiz_stats.append(questions_summary)
 
-            self.questions_quiz_stats.append(questions_summary)
-            print("Questions Quiz Stats: {}".format(self.questions_quiz_stats))
 
         except ValueError:
             correct = "yes"
@@ -480,7 +485,6 @@ class Game:
 
     def to_stats(self, questions, correct_list, incorrect_list):
         GameStats(self, questions, correct_list, incorrect_list)
-
 
 class Help:
     def __init__(self, partner):
@@ -529,16 +533,13 @@ class Help:
         partner.help_button.config(state=NORMAL)
         self.help_box.destroy()
 
-
 class GameStats:
     def __init__(self, partner, questions, correct_list, incorrect_list):
         print("----------")
-        print("===== Question Statistics =====")
+        print("===== Game Statistics =====")
         print("Questions Answered: {}".format(questions))
         print("Correct: {}".format(correct_list[1]))
         print("Incorrect: {}".format(incorrect_list[1]))
-
-        partner.stats_button.config(state=DISABLED)
 
         # **** initialise variables ****
         self.num_questions = IntVar()
@@ -579,8 +580,9 @@ class GameStats:
         self.export_dismiss_frame = Frame(self.stats_box)
         self.export_dismiss_frame.grid(row=5, pady=10)
 
+
         self.questions_correct_word = Label(self.questions_correct_frame,
-                                            text="Correct: ", font="Arial 12 bold")
+                                       text="Correct: ", font="Arial 12 bold")
         self.questions_correct_word.grid(row=0, column=0)
 
         self.questions_correct_number = Label(self.questions_correct_frame,
@@ -589,7 +591,7 @@ class GameStats:
         self.questions_correct_number.grid(row=0, column=1)
 
         self.questions_incorrect_word = Label(self.questions_incorrect_frame,
-                                              text="Incorrect: ", font="Arial 12 bold")
+                                         text="Incorrect: ", font="Arial 12 bold")
         self.questions_incorrect_word.grid(row=0, column=0)
 
         self.questions_incorrect_number = Label(self.questions_incorrect_frame,
@@ -598,8 +600,8 @@ class GameStats:
         self.questions_incorrect_number.grid(row=0, column=1)
 
         self.questions_answered_word = Label(self.questions_answered_frame,
-                                             text="Questions Answered: ",
-                                             font="Arial 12 bold")
+                                        text="Questions Answered: ",
+                                        font="Arial 12 bold")
         self.questions_answered_word.grid(row=0, column=0)
 
         self.questions_answered_number = Label(self.questions_answered_frame,
@@ -608,9 +610,7 @@ class GameStats:
         self.questions_answered_number.grid(row=0, column=1)
 
         self.export_button = Button(self.export_dismiss_frame, text="Export",
-                                    font="Arial 12 bold",
-                                    command=lambda: self.export(partner, questions,
-                                                                correct_list, incorrect_list))
+                                    font="Arial 12 bold")
         self.export_button.grid(row=0, column=0)
 
         self.dismiss_button = Button(self.export_dismiss_frame, text="Dismiss",
@@ -622,150 +622,8 @@ class GameStats:
         partner.stats_button.config(state=NORMAL)
         self.stats_box.destroy()
 
-    def export(self, partner, questions, correct_list, incorrect_list):
-        Export(self, questions, correct_list, incorrect_list)
-
     def to_quit(self):
         root.destroy()
-
-
-class Export:
-    def __init__(self, partner, questions, correct_list, incorrect_list):
-
-        # disable export button
-        partner.export_button.config(state=DISABLED)
-
-        # Sets up child window (ie: export box)
-        self.export_box = Toplevel()
-
-        # If users press cross at top, closes export and 'releases' export button
-        self.export_box.protocol('WM_DELETE_WINDOW', partial(self.close_export,
-                                                             partner))
-
-        # Set up GUI Frame
-        self.export_frame = Frame(self.export_box, width=300, )
-        self.export_frame.grid()
-
-        # Set up Export Heading (row 0)
-        self.how_heading = Label(self.export_frame, text="Export / "
-                                                         "Instructions",
-                                 font="arial 14 bold")
-        self.how_heading.grid(row=0)
-
-        # Export Instructions (label, row 1)
-        self.export_text = Label(self.export_frame, text="Enter a filename in the "
-                                                         "box below and press the "
-                                                         "Save button to save your "
-                                                         "calculation history to "
-                                                         "text file.",
-                                 justify=LEFT, width=40, wrap=250)
-
-        self.export_text.grid(row=1)
-
-        # Warning text (label, row 2)
-        self.export_text = Label(self.export_frame, text="If the filename you "
-                                                         "enter below already "
-                                                         "exists, its contents "
-                                                         "will be replaced with "
-                                                         "your calculation history",
-                                 justify=LEFT, bg="#ffafaf", fg="maroon",
-                                 font="Arial 10 italic", wrap=225, padx=10, pady=10)
-        self.export_text.grid(row=2, pady=10)
-
-        # Filename Entry Box (row 3)
-        self.filename_entry = Entry(self.export_frame, width=20,
-                                    font="Arial 14 bold", justify=CENTER)
-        self.filename_entry.grid(row=3, pady=10)
-
-        # Error Message Labels (initially blank, row 4)
-        self.save_error_label = Label(self.export_frame, text="", fg="maroon")
-        self.save_error_label.grid(row=4)
-
-        # Save / Cancel Frame (row 5)
-        self.save_cancel_frame = Frame(self.export_frame)
-        self.save_cancel_frame.grid(row=5, pady=10)
-
-        # Save and Cancel Buttons (row 0 of save_cancel_frame)
-        self.save_button = Button(self.save_cancel_frame, text="Save",
-                                  font="Arial 15 bold", bg="#003366", fg="white",
-                                  command=partial(lambda: self.save_history(partner, questions,
-                                                                            correct_list, incorrect_list)))
-        self.save_button.grid(row=0, column=0)
-
-        self.cancel_button = Button(self.save_cancel_frame, text="Cancel",
-                                    font="Arial 15 bold", bg="#660000", fg="white",
-                                    command=partial(self.close_export, partner))
-        self.cancel_button.grid(row=0, column=1)
-
-    def save_history(self, partner, questions, correct_list, incorrect_list):
-
-        amount_correct = correct_list[1]
-        amount_incorrect = incorrect_list[1]
-        amount_questions = questions
-
-        # Regular expression to check filename is valid
-        valid_char = "[A-Za-z0-9_]"
-        has_error = "no"
-
-        filename = self.filename_entry.get()
-        print(filename)
-
-        for letter in filename:
-            if re.match(valid_char, letter):
-                continue
-
-            elif letter == " ":
-                problem = "(no spaces allowed)"
-
-            else:
-                problem = ("(no {}'s allowed)".format(letter))
-            has_error = "yes"
-            break
-
-        if filename == "":
-            problem = "can't be blank"
-            has_error = "yes"
-
-        if has_error == "yes":
-            # Display error message
-            self.save_error_label.config(text="Invalid filename - {}".format(problem))
-            # Change entry box background to pink
-            self.filename_entry.config(bg="#ffafaf")
-            print()
-
-        else:
-            # If there are no errors, generate text file and then close dialogue
-            # add .txt suffix!
-            filename = filename + ".txt"
-
-            # create file to hold data
-            f = open(filename, "w+")
-
-            # Heading for Stats
-            f.write("Game Statistics\n\n")
-            f.write("# Correct: {}\n".format(amount_correct))
-            f.write("# Incorrect: {}\n".format(amount_incorrect))
-            f.write("# Questions Answered: {}\n".format(amount_questions))
-
-            # Heading for Rounds
-            f.write("\nQuestion Details\n\n")
-
-            print("Question Statistics", correct_list, incorrect_list)
-
-            # add new line at end of each item
-            for item in questions:
-                f.write(item + "\n")
-
-            # close file
-            f.close()
-
-            # close dialogue
-            self.close_export(partner)
-
-    def close_export(self, partner):
-        # Put export button back to normal
-        partner.export_button.config(state=NORMAL)
-        self.export_box.destroy()
 
 
 # main routine
