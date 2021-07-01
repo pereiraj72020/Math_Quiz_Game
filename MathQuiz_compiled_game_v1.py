@@ -173,11 +173,15 @@ class Start:
 
 class Game:
     def __init__(self, partner, questions, num, operation):
+
+        # shows questions and number that are going to be in use
+        # in class Game.
         print("Questions: {}".format(questions))
         print("Number being used in Play...: {}".format(num))
         print("Operation: {}".format(operation))
         print("===== Play... =====")
 
+        # Sets correct and incorrect to zero
         correct_before = 0
         incorrect_before = 0
 
@@ -206,14 +210,6 @@ class Game:
         self.questions_quiz_stats = []
         self.correct_list = [correct_before, correct_before]
         self.incorrect_list = [incorrect_before, incorrect_before]
-
-        correct_tostats = correct_before
-        self.correct_list.append(correct_tostats)
-        print(correct_tostats)
-
-        incorrect_tostats = incorrect_before
-        self.incorrect_list.append(incorrect_tostats)
-        print(incorrect_tostats)
 
         # GUI Setup
         self.game_box = Toplevel()
@@ -385,12 +381,14 @@ class Game:
             self.next_button.config(state=DISABLED)
             self.check_button.config(state=DISABLED)
 
+            # No more questions/s left... will replace
+            # {} question/s left...
             question_amount_finish = "No more Question/s Left..."
             self.questions_total.config(text=question_amount_finish)
             self.questions_total.config(fg="maroon")
 
+            # shows when there are no more questions
             to_ask_nomore = "..."
-
             self.show_questions.config(text=to_ask_nomore)
             self.show_questions.config(fg="black")
             self.user_input.config(state=DISABLED)
@@ -409,8 +407,6 @@ class Game:
 
         correct_now = self.correct.get()
         incorrect_now = self.incorrect.get()
-
-        questions_used = self.num_questions.get()
 
         # retrieve random_number
         random_number = self.num_random.get()
@@ -453,13 +449,14 @@ class Game:
                 self.incorrect.set(incorrect_now)
                 self.incorrect_list[1] = incorrect_now
 
-            # self.check_button.config(state=NORMAL)
-            # # Add question results to statistics list
+            # Shows .txt file of questions asked, user input
+            # and feedback (correct or incorrect) when exported.
             questions_summary = "{} = {} | {}".format(asked, user_input, answer_feedback)
 
             self.questions_quiz_stats.append(questions_summary)
             print("Questions Quiz Stats: {}".format(self.questions_quiz_stats))
 
+        # if the entry is blank, has decimals or text the program will complain...
         except ValueError:
             correct = "yes"
             incorrect = "yes"
@@ -481,6 +478,8 @@ class Game:
     def to_help(self):
         get_help = Help(self)
 
+        # carry over questions, correct list and incorrect list
+        # to GameStats
     def to_stats(self, questions, correct_list, incorrect_list):
         GameStats(self, questions, correct_list, incorrect_list)
 
@@ -536,6 +535,9 @@ class Help:
 class GameStats:
     def __init__(self, partner, questions, correct_list, incorrect_list):
 
+        # to present for labels to register
+        # how many is correct, incorrect and questions
+        # also percentage.
         amount_correct = correct_list[1]
         amount_incorrect = incorrect_list[1]
         amount_questions = amount_correct + amount_incorrect
@@ -571,6 +573,7 @@ class GameStats:
                                    pady=10, width=20)
         self.heading_label.grid(row=0)
 
+        # Initial Instructions (row 1)
         self.instructions_label = Label(self.stats_frame, wrap=300, justify=LEFT,
                                         text="Here are your Game Statistics. Please use "
                                              "the Export button to access the results "
@@ -578,77 +581,96 @@ class GameStats:
                                         font="Arial 10", padx=10, pady=10, fg="green")
         self.instructions_label.grid(row=1, pady=20)
 
+        # questions correct frame (row 2)
         self.questions_correct_frame = Frame(self.stats_box)
         self.questions_correct_frame.grid(row=2)
 
+        # questions incorrect frame (row 3)
         self.questions_incorrect_frame = Frame(self.stats_box)
         self.questions_incorrect_frame.grid(row=3)
 
+        # questions percentage frame (row 4)
         self.questions_percentage_frame = Frame(self.stats_box)
         self.questions_percentage_frame.grid(row=4)
 
+        # questions answered frame (row 5)
         self.questions_answered_frame = Frame(self.stats_box)
         self.questions_answered_frame.grid(row=5)
 
+        # export dismiss frame (row 6)
         self.export_dismiss_frame = Frame(self.stats_box)
         self.export_dismiss_frame.grid(row=6, pady=10)
 
+        # questions correct word label (row 2)
         self.questions_correct_word = Label(self.questions_correct_frame,
                                             text="Correct: ", font="Arial 12 bold")
         self.questions_correct_word.grid(row=0, column=0)
 
+        # questions correct number label (row 2, column 1)
         self.questions_correct_number = Label(self.questions_correct_frame,
                                               text="{}".format(amount_correct),
                                               font="Arial 12 bold")
         self.questions_correct_number.grid(row=0, column=1)
 
+        # questions incorrect word label (row 3)
         self.questions_incorrect_word = Label(self.questions_incorrect_frame,
                                               text="Incorrect: ", font="Arial 12 bold")
         self.questions_incorrect_word.grid(row=0, column=0)
 
+        # questions incorrect number label (row 3, column 1)
         self.questions_incorrect_number = Label(self.questions_incorrect_frame,
                                                 text="{}".format(amount_incorrect),
                                                 font="Arial 12 bold")
         self.questions_incorrect_number.grid(row=0, column=1)
 
+        # questions percentage word (row 4)
         self.questions_percentage_word = Label(self.questions_percentage_frame,
                                                text="Correct Percentage: ",
                                                font="Arial 12 bold")
         self.questions_percentage_word.grid(row=0, column=0)
 
+        # questions percentage number (row 4, column 1)
         self.questions_percentage_number = Label(self.questions_percentage_frame,
                                                  text="{}".format(percentage),
                                                  font="Arial 12 bold")
         self.questions_percentage_number.grid(row=0, column=1)
 
+        # questions answered word (row 5)
         self.questions_answered_word = Label(self.questions_answered_frame,
                                              text="Questions Answered: ",
                                              font="Arial 12 bold")
         self.questions_answered_word.grid(row=0, column=0)
 
+        # questions answered number (row 5, column 1)
         self.questions_answered_number = Label(self.questions_answered_frame,
                                                text="{}".format(amount_questions),
                                                font="Arial 12 bold")
         self.questions_answered_number.grid(row=0, column=1)
 
+        # export button (row 6)
         self.export_button = Button(self.export_dismiss_frame, text="Export",
                                     font="Arial 12 bold",
                                     command=lambda: self.export(partner, questions,
                                                                 correct_list, incorrect_list))
         self.export_button.grid(row=0, column=0)
 
+        # dismiss button (row 6, column 1)
         self.dismiss_button = Button(self.export_dismiss_frame, text="Dismiss",
                                      font="Arial 12 bold", command=partial(self.close_stats, partner))
         self.dismiss_button.grid(row=0, column=1)
 
+        # closes the statistics
     def close_stats(self, partner):
         # put Help button back to normal...
         partner.stats_button.config(state=NORMAL)
         self.stats_box.destroy()
 
+        # carry over questions, correct_list and incorrect list to Export
+
     def export(self, partner, questions, correct_list, incorrect_list):
         Export(self, questions, correct_list, incorrect_list)
 
+        # destroys program
     def to_quit(self):
         root.destroy()
 
@@ -723,10 +745,10 @@ class Export:
 
     def save_history(self, partner, questions, correct_list, incorrect_list):
 
+        # to present headings for statistics
         amount_correct = correct_list[1]
         amount_incorrect = incorrect_list[1]
         amount_questions = amount_correct + amount_incorrect
-
         percentage = amount_correct / amount_questions * 100
 
         # Regular expression to check filename is valid
@@ -767,13 +789,12 @@ class Export:
             # create file to hold data
             f = open(filename, "w+")
 
-            # Heading for Stats
+            # Headings for Stats
             f.write("Game Statistics\n\n")
             f.write("# Correct: {}\n".format(amount_correct))
             f.write("# Incorrect: {}\n".format(amount_incorrect))
             f.write("# Correct Percentage: {}\n".format(percentage))
             f.write("# Questions Answered: {}\n".format(amount_questions))
-
 
             # Heading for Rounds
             f.write("\nQuestion Details\n\n")

@@ -2,8 +2,9 @@ Game Statistics
 
 # Correct: 0
 # Incorrect: 1
+# Correct Percentage: 0.0
 # Questions Answered: 1
 
 Question Details
 
-2 + 4 = 1 | Incorrect
+1 + 3 = 1 | Incorrect
