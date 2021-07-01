@@ -540,10 +540,13 @@ class GameStats:
         amount_incorrect = incorrect_list[1]
         amount_questions = amount_correct + amount_incorrect
 
+        percentage = amount_correct / amount_questions * 100
+
         print("----------")
         print("===== Question Statistics =====")
         print("Correct: {}".format(amount_correct))
         print("Incorrect: {}".format(amount_incorrect))
+        print("Correct Percentage: {}".format(percentage))
         print("Questions Answered: {}".format(amount_questions))
 
         partner.stats_button.config(state=DISABLED)
@@ -581,11 +584,14 @@ class GameStats:
         self.questions_incorrect_frame = Frame(self.stats_box)
         self.questions_incorrect_frame.grid(row=3)
 
+        self.questions_percentage_frame = Frame(self.stats_box)
+        self.questions_percentage_frame.grid(row=4)
+
         self.questions_answered_frame = Frame(self.stats_box)
-        self.questions_answered_frame.grid(row=4)
+        self.questions_answered_frame.grid(row=5)
 
         self.export_dismiss_frame = Frame(self.stats_box)
-        self.export_dismiss_frame.grid(row=5, pady=10)
+        self.export_dismiss_frame.grid(row=6, pady=10)
 
         self.questions_correct_word = Label(self.questions_correct_frame,
                                             text="Correct: ", font="Arial 12 bold")
@@ -604,6 +610,16 @@ class GameStats:
                                                 text="{}".format(amount_incorrect),
                                                 font="Arial 12 bold")
         self.questions_incorrect_number.grid(row=0, column=1)
+
+        self.questions_percentage_word = Label(self.questions_percentage_frame,
+                                               text="Correct Percentage: ",
+                                               font="Arial 12 bold")
+        self.questions_percentage_word.grid(row=0, column=0)
+
+        self.questions_percentage_number = Label(self.questions_percentage_frame,
+                                                 text="{}".format(percentage),
+                                                 font="Arial 12 bold")
+        self.questions_percentage_number.grid(row=0, column=1)
 
         self.questions_answered_word = Label(self.questions_answered_frame,
                                              text="Questions Answered: ",
@@ -755,7 +771,9 @@ class Export:
             f.write("Game Statistics\n\n")
             f.write("# Correct: {}\n".format(amount_correct))
             f.write("# Incorrect: {}\n".format(amount_incorrect))
+            f.write("# Correct Percentage: {}\n".format(percentage))
             f.write("# Questions Answered: {}\n".format(amount_questions))
+
 
             # Heading for Rounds
             f.write("\nQuestion Details\n\n")
