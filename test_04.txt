@@ -1,0 +1,10 @@
+Game Statistics
+
+# Correct: 0
+# Incorrect: 2
+# Questions Answered: ['2 + 7 = 2 | Incorrect', '2 + 3 = 2 | Incorrect']
+
+Question Details
+
+2 + 7 = 2 | Incorrect
+2 + 3 = 2 | Incorrect
