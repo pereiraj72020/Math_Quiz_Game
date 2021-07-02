@@ -100,11 +100,6 @@ class Start:
                                             fg="white", command=self.check_errors_n_button, activebackground="#FFA500")
         self.multiplication_button.grid(row=0, column=2, padx=5, pady=10)
 
-        # Division button (row 7)
-        self.division_button = Button(self.button_frame, text='Division', bg="#008000", font=button_font,
-                                      fg="white", command=self.check_errors_n_button, activebackground="#FFA500")
-        self.division_button.grid(row=0, column=3, pady=10)
-
         # Help_Quit frame (row 8)
         self.help_quit_frame = Frame(self.start_frame)
         self.help_quit_frame.grid(row=8)
