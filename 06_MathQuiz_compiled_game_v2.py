@@ -387,6 +387,11 @@ class Game:
             self.show_questions.config(fg="black")
             self.user_input.config(state=DISABLED)
 
+            # shows you don't need to push next anymore
+            to_next_nomore = "DONE!"
+            self.push_button_label.config(text=to_next_nomore)
+            self.push_button_label.config(fg="black")
+
         else:
             self.next_button.config(state=DISABLED)
 
