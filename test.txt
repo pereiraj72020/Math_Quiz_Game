@@ -1,0 +1,14 @@
+Game Statistics
+
+# Correct: 4
+# Incorrect: 1
+# Correct Percentage: 80.0
+# Questions Answered: 5
+
+Question Details
+
+10 * 5 = 50 | Correct!
+10 * 5 = 49 | Incorrect
+10 * 3 = 30 | Correct!
+10 * 4 = 40 | Correct!
+10 * 12 = 120 | Correct!
